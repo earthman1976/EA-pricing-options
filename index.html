@@ -136,7 +136,7 @@
             sc: {
                 link: "https://t.me/+T1s2b4A7O6g3OTBl",
                 title: "FX Spectrum 专业授权方案", subtitle: "选择最适合您的交易规模与平台的方案",
-                monthly: "月缴", semi: "半年缴", yearly: "年缴 (最划算)",
+                monthly: "按月支付", semi: "按半年支付", yearly: "按年支付 (最划算)",
                 limitedTitle: "限时推广方案", limitedSub: "※ 仅限首 10 位推广名额, 数量有限",
                 restrictedTitle: "绑定指定平台付费方案", restrictedSub: "适合单一券商交易者",
                 unrestrictedTitle: "不绑定指定平台方案", unrestrictedSub: "专业交易员首选",
@@ -211,21 +211,21 @@
             document.getElementById('plan1-sub').innerText = t.limitedSub;
             document.getElementById('plan1-cycle').innerText = cycleText;
             document.getElementById('btn1').innerText = t.btnClaim;
-            document.getElementById('btn1').href = t.link; // 直接套用連結
+            document.getElementById('btn1').href = t.link; 
 
             document.getElementById('plan2-title').innerText = t.restrictedTitle;
             document.getElementById('plan2-sub').innerText = t.restrictedSub;
             document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
             document.getElementById('label-restricted').innerText = cycleText;
             document.getElementById('btn2').innerText = t.btnSubscribe;
-            document.getElementById('btn2').href = t.link; // 直接套用連結
+            document.getElementById('btn2').href = t.link; 
 
             document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
             document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
             document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
             document.getElementById('label-unrestricted').innerText = cycleText;
             document.getElementById('btn3').innerText = t.btnContact;
-            document.getElementById('btn3').href = t.link; // 直接套用連結
+            document.getElementById('btn3').href = t.link; 
 
             document.getElementById('footer1').innerText = t.footer1;
             document.getElementById('footer2').innerText = t.footer2;
