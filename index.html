@@ -68,9 +68,9 @@
                     <p class="text-xs text-yellow-500/70 mt-2 font-medium" id="plan1-sub">※ 僅限首 10 位推廣名額, 數量有限</p>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow" id="list-limited"></ul>
-                <button class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10" id="btn1">
+                <a id="btn1" target="_blank" class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10 block text-center">
                     立即前往領取
-                </button>
+                </a>
             </div>
 
             <!-- 方案 2: 標準付費 -->
@@ -84,9 +84,9 @@
                     <p class="text-xs text-slate-500 mt-2" id="plan2-sub">適合單一券商交易者</p>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow" id="list-restricted"></ul>
-                <button class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20" id="btn2">
+                <a id="btn2" target="_blank" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20 block text-center">
                     立即訂閱
-                </button>
+                </a>
             </div>
 
             <!-- 方案 3: 進階全能 -->
@@ -100,9 +100,9 @@
                     <p class="text-xs text-slate-500 mt-2 text-purple-300/70" id="plan3-sub">專業交易員首選</p>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow" id="list-unrestricted"></ul>
-                <button class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40" id="btn3">
+                <a id="btn3" target="_blank" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40 block text-center">
                     聯絡官方獲取授權
-                </button>
+                </a>
             </div>
         </div>
 
@@ -118,6 +118,7 @@
     <script>
         const translations = {
             tc: {
+                link: "https://t.me/+T1s2b4A7O6g3OTBl",
                 title: "FX Spectrum 專業授權方案", subtitle: "選擇最適合您的交易規模與平台的方案",
                 monthly: "月繳", semi: "半年繳", yearly: "年繳 (最划算)",
                 limitedTitle: "限時推廣方案", limitedSub: "※ 僅限首 10 位推廣名額, 數量有限",
@@ -133,6 +134,7 @@
                 footer1: "* 付費方案均包含永久技術支援與版本更新。", footer2: "* 「指定平台」係指該授權僅限於與本司簽約之券商帳號。"
             },
             sc: {
+                link: "https://t.me/+T1s2b4A7O6g3OTBl",
                 title: "FX Spectrum 专业授权方案", subtitle: "选择最适合您的交易规模与平台的方案",
                 monthly: "月缴", semi: "半年缴", yearly: "年缴 (最划算)",
                 limitedTitle: "限时推广方案", limitedSub: "※ 仅限首 10 位推广名额, 数量有限",
@@ -148,6 +150,7 @@
                 footer1: "* 付费方案均包含永久技术支援与版本更新。", footer2: "* 「指定平台」系指该授权仅限于与本司签约之券商账号。"
             },
             en: {
+                link: "https://t.me/+Wllbm5FC_1Y2OGRh",
                 title: "FX Spectrum Professional Licensing", subtitle: "Choose the plan that best fits your trading scale and platform",
                 monthly: "Monthly", semi: "Semi-Annual", yearly: "Yearly (Best Value)",
                 limitedTitle: "Limited Promotion", limitedSub: "※ Limited to first 10 slots, availability is limited",
@@ -208,18 +211,21 @@
             document.getElementById('plan1-sub').innerText = t.limitedSub;
             document.getElementById('plan1-cycle').innerText = cycleText;
             document.getElementById('btn1').innerText = t.btnClaim;
+            document.getElementById('btn1').href = t.link; // 直接套用連結
 
             document.getElementById('plan2-title').innerText = t.restrictedTitle;
             document.getElementById('plan2-sub').innerText = t.restrictedSub;
             document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
             document.getElementById('label-restricted').innerText = cycleText;
             document.getElementById('btn2').innerText = t.btnSubscribe;
+            document.getElementById('btn2').href = t.link; // 直接套用連結
 
             document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
             document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
             document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
             document.getElementById('label-unrestricted').innerText = cycleText;
             document.getElementById('btn3').innerText = t.btnContact;
+            document.getElementById('btn3').href = t.link; // 直接套用連結
 
             document.getElementById('footer1').innerText = t.footer1;
             document.getElementById('footer2').innerText = t.footer2;
