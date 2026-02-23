@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FX Spectrum 專業授權方案</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .gradient-text {
+            background: linear-gradient(to right, #facc15, #fb923c, #facc15);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-white min-h-screen p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto" id="app">
+        <!-- 標題區域 -->
+        <div class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-bold gradient-text mb-4">
+                FX Spectrum 專業授權方案
+            </h1>
+            <p class="text-slate-400 text-lg mb-8">
+                選擇最適合您的交易規模與平台的方案
+            </p>
+
+            <!-- 計費週期切換 -->
+            <div class="inline-flex bg-slate-900 p-1 rounded-2xl border border-slate-800" id="billingToggle">
+                <button onclick="setCycle('monthly')" id="btn-monthly" class="px-6 py-2 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-300">
+                    月繳
+                </button>
+                <button onclick="setCycle('semi-annual')" id="btn-semi" class="px-6 py-2 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-300">
+                    半年繳
+                </button>
+                <button onclick="setCycle('yearly')" id="btn-yearly" class="px-6 py-2 rounded-xl text-sm font-bold transition-all bg-slate-700 text-white shadow-lg">
+                    年繳 (最划算)
+                </button>
+            </div>
+        </div>
+
+        <!-- 價格網格 -->
+        <div class="grid lg:grid-cols-3 gap-6">
+            
+            <!-- 方案 1: 限時推廣 -->
+            <div class="relative bg-slate-900 border border-yellow-500/30 rounded-3xl p-8 flex flex-col transition-all hover:border-yellow-500 shadow-xl shadow-yellow-500/5">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-500 text-slate-950 px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">
+                    Limited Time
+                </div>
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-yellow-500 mb-2">限時推廣方案</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-black">$0</span>
+                        <span class="ml-2 text-slate-500 text-sm">/ 半年</span>
+                    </div>
+                    <p class="text-xs text-yellow-500/70 mt-2 font-medium">※ 僅限首 10 位推廣名額, 數量有限</p>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow" id="list-limited">
+                    <!-- JS 動態注入 -->
+                </ul>
+                <button class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10">
+                    立即前往領取
+                </button>
+            </div>
+
+            <!-- 方案 2: 標準付費 -->
+            <div class="relative bg-slate-900 border border-blue-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-blue-500/5 group">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-blue-400 mb-2">綁定指定平台付費方案</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-black" id="price-restricted">$1,000</span>
+                        <span class="ml-2 text-slate-500 text-sm" id="label-restricted">/ 年</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2">適合單一券商交易者</p>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow" id="list-restricted">
+                    <!-- JS 動態注入 -->
+                </ul>
+                <button class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20">
+                    立即訂閱
+                </button>
+            </div>
+
+            <!-- 方案 3: 進階全能 -->
+            <div class="relative bg-gradient-to-b from-slate-800 to-slate-900 border border-purple-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-purple-500/10">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-purple-400 mb-2">不綁定指定平台方案</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-black" id="price-unrestricted">$5,000</span>
+                        <span class="ml-2 text-slate-500 text-sm" id="label-unrestricted">/ 年</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-2 text-purple-300/70">專業交易員首選</p>
+                </div>
+                <ul class="space-y-4 mb-8 flex-grow" id="list-unrestricted">
+                    <!-- JS 動態注入 -->
+                </ul>
+                <button class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40">
+                    聯絡官方獲取 Pro 授權
+                </button>
+            </div>
+        </div>
+
+        <!-- 亮點 -->
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+            <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center">
+                <div class="flex justify-center mb-2"><i data-lucide="zap" class="text-yellow-500"></i></div>
+                <div class="text-sm font-bold">極速下單</div>
+                <div class="text-[10px] text-slate-500">毫秒級毫無延遲</div>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center">
+                <div class="flex justify-center mb-2"><i data-lucide="shield" class="text-blue-500"></i></div>
+                <div class="text-sm font-bold">資金安全</div>
+                <div class="text-[10px] text-slate-500">嚴格執行止損保本</div>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center">
+                <div class="flex justify-center mb-2"><i data-lucide="trending-up" class="text-green-500"></i></div>
+                <div class="text-sm font-bold">利潤極大化</div>
+                <div class="text-[10px] text-slate-500">全自動移動止盈</div>
+            </div>
+            <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center">
+                <div class="flex justify-center mb-2"><i data-lucide="dollar-sign" class="text-orange-500"></i></div>
+                <div class="text-sm font-bold">精算配置</div>
+                <div class="text-[10px] text-slate-500">自動計算每單風險</div>
+            </div>
+        </div>
+
+        <div class="mt-12 text-center space-y-2">
+            <p class="text-slate-500 text-xs italic">* 付費方案均包含永久技術支援與版本更新。</p>
+            <p class="text-slate-500 text-xs italic">* 「指定平台」係指該授權僅限於與本司簽約之券商帳號。</p>
+        </div>
+    </div>
+
+    <script>
+        let currentCycle = 'yearly';
+        const prices = {
+            restricted: { monthly: 200, semi: 600, yearly: 1000 },
+            unrestricted: { monthly: 500, semi: 2700, yearly: 5000 }
+        };
+
+        function setCycle(cycle) {
+            currentCycle = cycle;
+            
+            // 更新按鈕樣式
+            ['monthly', 'semi', 'yearly'].forEach(c => {
+                const btn = document.getElementById('btn-' + c);
+                if (c === (cycle === 'semi-annual' ? 'semi' : cycle)) {
+                    btn.classList.add('bg-slate-700', 'text-white', 'shadow-lg');
+                    btn.classList.remove('text-slate-500');
+                } else {
+                    btn.classList.remove('bg-slate-700', 'text-white', 'shadow-lg');
+                    btn.classList.add('text-slate-500');
+                }
+            });
+
+            render();
+        }
+
+        function render() {
+            const cycleLabel = currentCycle === 'monthly' ? '/ 月' : (currentCycle === 'semi-annual' ? '/ 半年' : '/ 年');
+            
+            // 更新價格文字
+            document.getElementById('price-restricted').innerText = '$' + prices.restricted[currentCycle === 'semi-annual' ? 'semi' : currentCycle].toLocaleString();
+            document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[currentCycle === 'semi-annual' ? 'semi' : currentCycle].toLocaleString();
+            document.getElementById('label-restricted').innerText = cycleLabel;
+            document.getElementById('label-unrestricted').innerText = cycleLabel;
+
+            // 渲染列表內容
+            const unlockTag = currentCycle === 'yearly' ? ' (完全解鎖)' : '';
+            
+            // 方案 1 列表
+            document.getElementById('list-limited').innerHTML = `
+                <li class="flex items-center text-sm text-slate-300"><i data-lucide="lock" class="text-yellow-500 mr-3 shrink-0 w-4 h-4"></i>綁定官方指定合作券商</li>
+                <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 shrink-0 w-4 h-4"></i>T Assistant</li>
+                <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 shrink-0 w-4 h-4"></i>Exit Plus (洽詢管理員)</li>
+                <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 shrink-0 w-4 h-4"></i>Risk Reward (洽詢管理員)</li>
+            `;
+
+            // 方案 2 列表
+            document.getElementById('list-restricted').innerHTML = `
+                <li class="flex items-center text-sm text-slate-200"><i data-lucide="lock" class="text-blue-400 mr-3 shrink-0 w-4 h-4"></i>官方指定券商帳號 (不可自選)</li>
+                <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 shrink-0 w-4 h-4"></i>T Assistant${unlockTag}</li>
+                <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 shrink-0 w-4 h-4"></i>Exit Plus (洽詢管理員)</li>
+                <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 shrink-0 w-4 h-4"></i>Risk Reward (洽詢管理員)</li>
+                <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 shrink-0 w-4 h-4"></i>專屬一對一策略調優服務</li>
+                <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 shrink-0 w-4 h-4"></i>支持線上技術諮詢</li>
+            `;
+
+            // 方案 3 列表
+            document.getElementById('list-unrestricted').innerHTML = `
+                <li class="flex items-center text-sm text-white font-semibold"><i data-lucide="globe" class="text-purple-400 mr-3 shrink-0 w-4 h-4"></i>不限券商、不限帳號數量</li>
+                <li class="flex items-start text-sm text-white"><i data-lucide="check" class="text-green-400 mr-3 mt-1 shrink-0 w-4 h-4"></i>T Assistant${unlockTag}</li>
+                <li class="flex items-start text-sm text-white"><i data-lucide="check" class="text-green-400 mr-3 mt-1 shrink-0 w-4 h-4"></i>Exit Plus (洽詢管理員)</li>
+                <li class="flex items-start text-sm text-white"><i data-lucide="check" class="text-green-400 mr-3 mt-1 shrink-0 w-4 h-4"></i>Risk Reward (洽詢管理員)</li>
+                <li class="flex items-center text-sm text-white"><i data-lucide="check" class="text-green-400 mr-3 shrink-0 w-4 h-4"></i>專屬一對一策略調優服務</li>
+                <li class="flex items-center text-sm text-white"><i data-lucide="check" class="text-green-400 mr-3 shrink-0 w-4 h-4"></i>支持線上技術諮詢</li>
+            `;
+
+            lucide.createIcons();
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>
