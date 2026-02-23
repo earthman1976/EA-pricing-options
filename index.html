@@ -14,6 +14,8 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+        /* 確保連結看起來是可點擊的狀態 */
+        a { cursor: pointer; }
     </style>
 </head>
 <body class="bg-slate-950 text-white min-h-screen p-4 md:p-8">
@@ -68,13 +70,13 @@
                     <p class="text-xs text-yellow-500/70 mt-2 font-medium" id="plan1-sub">※ 僅限首 10 位推廣名額, 數量有限</p>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow" id="list-limited"></ul>
-                <a id="btn1" target="_blank" class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10 block text-center">
+                <a id="btn1" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10 block text-center">
                     立即前往領取
                 </a>
             </div>
 
             <!-- 方案 2: 標準付費 -->
-            <div class="relative bg-slate-900 border border-blue-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-blue-500/5">
+            <div class="relative bg-slate-900 border border-blue-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-blue-500/5 group">
                 <div class="mb-6">
                     <h3 class="text-xl font-bold text-blue-400 mb-2" id="plan2-title">綁定指定平台付費方案</h3>
                     <div class="flex items-baseline text-white">
@@ -84,7 +86,7 @@
                     <p class="text-xs text-slate-500 mt-2" id="plan2-sub">適合單一券商交易者</p>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow" id="list-restricted"></ul>
-                <a id="btn2" target="_blank" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20 block text-center">
+                <a id="btn2" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20 block text-center">
                     立即訂閱
                 </a>
             </div>
@@ -100,7 +102,7 @@
                     <p class="text-xs text-slate-500 mt-2 text-purple-300/70" id="plan3-sub">專業交易員首選</p>
                 </div>
                 <ul class="space-y-4 mb-8 flex-grow" id="list-unrestricted"></ul>
-                <a id="btn3" target="_blank" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40 block text-center">
+                <a id="btn3" target="_blank" rel="noopener noreferrer" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40 block text-center">
                     聯絡官方獲取授權
                 </a>
             </div>
@@ -197,77 +199,93 @@
         }
 
         function render() {
-            const t = translations[currentLang];
-            const cycleKey = currentCycle === 'semi-annual' ? 'semi' : currentCycle;
-            const cycleText = t.cycleLabel[currentCycle];
+            try {
+                const t = translations[currentLang];
+                const cycleKey = currentCycle === 'semi-annual' ? 'semi' : currentCycle;
+                const cycleText = t.cycleLabel[currentCycle];
 
-            document.getElementById('main-title').innerText = t.title;
-            document.getElementById('main-subtitle').innerText = t.subtitle;
-            document.getElementById('btn-monthly').innerText = t.monthly;
-            document.getElementById('btn-semi').innerText = t.semi;
-            document.getElementById('btn-yearly').innerText = t.yearly;
+                // 更新所有靜態文字
+                document.getElementById('main-title').innerText = t.title;
+                document.getElementById('main-subtitle').innerText = t.subtitle;
+                document.getElementById('btn-monthly').innerText = t.monthly;
+                document.getElementById('btn-semi').innerText = t.semi;
+                document.getElementById('btn-yearly').innerText = t.yearly;
 
-            document.getElementById('plan1-title').innerText = t.limitedTitle;
-            document.getElementById('plan1-sub').innerText = t.limitedSub;
-            document.getElementById('plan1-cycle').innerText = cycleText;
-            document.getElementById('btn1').innerText = t.btnClaim;
-            document.getElementById('btn1').href = t.link; 
+                document.getElementById('plan1-title').innerText = t.limitedTitle;
+                document.getElementById('plan1-sub').innerText = t.limitedSub;
+                document.getElementById('plan1-cycle').innerText = cycleText;
+                document.getElementById('btn1').innerText = t.btnClaim;
+                document.getElementById('btn1').setAttribute('href', t.link); 
 
-            document.getElementById('plan2-title').innerText = t.restrictedTitle;
-            document.getElementById('plan2-sub').innerText = t.restrictedSub;
-            document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
-            document.getElementById('label-restricted').innerText = cycleText;
-            document.getElementById('btn2').innerText = t.btnSubscribe;
-            document.getElementById('btn2').href = t.link; 
+                document.getElementById('plan2-title').innerText = t.restrictedTitle;
+                document.getElementById('plan2-sub').innerText = t.restrictedSub;
+                document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
+                document.getElementById('label-restricted').innerText = cycleText;
+                document.getElementById('btn2').innerText = t.btnSubscribe;
+                document.getElementById('btn2').setAttribute('href', t.link); 
 
-            document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
-            document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
-            document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
-            document.getElementById('label-unrestricted').innerText = cycleText;
-            document.getElementById('btn3').innerText = t.btnContact;
-            document.getElementById('btn3').href = t.link; 
+                document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
+                document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
+                document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
+                document.getElementById('label-unrestricted').innerText = cycleText;
+                document.getElementById('btn3').innerText = t.btnContact;
+                document.getElementById('btn3').setAttribute('href', t.link); 
 
-            document.getElementById('footer1').innerText = t.footer1;
-            document.getElementById('footer2').innerText = t.footer2;
+                document.getElementById('footer1').innerText = t.footer1;
+                document.getElementById('footer2').innerText = t.footer2;
 
-            const unlock = currentCycle === 'yearly' ? ` (${t.fullyUnlocked})` : '';
-            const contact = ` (${t.contactManager})`;
+                // 渲染工具列表
+                const unlock = currentCycle === 'yearly' ? ` (${t.fullyUnlocked})` : '';
+                const contact = ` (${t.contactManager})`;
 
-            document.getElementById('list-limited').innerHTML = `
-                <li class="flex items-center text-sm text-slate-300"><i data-lucide="lock" class="text-yellow-500 mr-3 w-4 h-4"></i>${t.featureBroker}</li>
-                <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>T Assistant</li>
-                <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>Exit Plus${contact}</li>
-                <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>Risk Reward${contact}</li>
-            `;
+                document.getElementById('list-limited').innerHTML = `
+                    <li class="flex items-center text-sm text-slate-300"><i data-lucide="lock" class="text-yellow-500 mr-3 w-4 h-4"></i>${t.featureBroker}</li>
+                    <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>T Assistant</li>
+                    <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>Exit Plus${contact}</li>
+                    <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>Risk Reward${contact}</li>
+                `;
 
-            const listPaid = (restricted) => `
-                <li class="flex items-center text-sm text-slate-200"><i data-lucide="${restricted?'lock':'globe'}" class="text-${restricted?'blue':'purple'}-400 mr-3 w-4 h-4"></i>${restricted?t.featureBrokerRestricted:t.featureUnrestricted}</li>
-                <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>T Assistant${unlock}</li>
-                <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>Exit Plus${contact}</li>
-                <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>Risk Reward${contact}</li>
-                <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureStrategy}</li>
-                <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureSupport}</li>
-            `;
-            document.getElementById('list-restricted').innerHTML = listPaid(true);
-            document.getElementById('list-unrestricted').innerHTML = listPaid(false);
+                const listPaid = (restricted) => `
+                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="${restricted?'lock':'globe'}" class="text-${restricted?'blue':'purple'}-400 mr-3 w-4 h-4"></i>${restricted?t.featureBrokerRestricted:t.featureUnrestricted}</li>
+                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>T Assistant${unlock}</li>
+                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>Exit Plus${contact}</li>
+                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>Risk Reward${contact}</li>
+                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureStrategy}</li>
+                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureSupport}</li>
+                `;
+                document.getElementById('list-restricted').innerHTML = listPaid(true);
+                document.getElementById('list-unrestricted').innerHTML = listPaid(false);
 
-            document.getElementById('highlights').innerHTML = [
-                { i: 'zap', c: 'yellow', t: t.h1, s: t.h1s },
-                { i: 'shield', c: 'blue', t: t.h2, s: t.h2s },
-                { i: 'trending-up', c: 'green', t: t.h3, s: t.h3s },
-                { i: 'dollar-sign', c: 'orange', t: t.h4, s: t.h4s }
-            ].map(h => `
-                <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center">
-                    <div class="flex justify-center mb-2"><i data-lucide="${h.i}" class="text-${h.c}-500"></i></div>
-                    <div class="text-sm font-bold">${h.t}</div>
-                    <div class="text-[10px] text-slate-500">${h.s}</div>
-                </div>
-            `).join('');
+                // 亮點渲染
+                document.getElementById('highlights').innerHTML = [
+                    { i: 'zap', c: 'yellow', t: t.h1, s: t.h1s },
+                    { i: 'shield', c: 'blue', t: t.h2, s: t.h2s },
+                    { i: 'trending-up', c: 'green', t: t.h3, s: t.h3s },
+                    { i: 'dollar-sign', c: 'orange', t: t.h4, s: t.h4s }
+                ].map(h => `
+                    <div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center">
+                        <div class="flex justify-center mb-2"><i data-lucide="${h.i}" class="text-${h.c}-500"></i></div>
+                        <div class="text-sm font-bold">${h.t}</div>
+                        <div class="text-[10px] text-slate-500">${h.s}</div>
+                    </div>
+                `).join('');
 
-            lucide.createIcons();
+                // 重新載入圖示
+                if (typeof lucide !== 'undefined') {
+                    lucide.createIcons();
+                }
+            } catch (e) {
+                console.error("Render error:", e);
+            }
         }
 
-        window.onload = () => { render(); };
+        // 確保 DOM 載入後執行
+        document.addEventListener('DOMContentLoaded', () => {
+            render();
+        });
+
+        // 雙重保險：視窗載入後再跑一次
+        window.onload = render;
     </script>
 </body>
 </html>
