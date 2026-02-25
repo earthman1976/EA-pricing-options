@@ -46,7 +46,6 @@
 <body class="bg-slate-950 text-white min-h-screen p-4 md:p-8">
 
     <div class="max-w-7xl mx-auto" id="app">
-        <!-- 語言切換選單 -->
         <div class="flex justify-end mb-4">
             <div class="inline-flex bg-slate-900 p-1 rounded-xl border border-slate-800">
                 <button onclick="setLang('tc')" id="lang-tc" class="px-3 py-1 rounded-lg text-xs font-bold transition-all text-white bg-slate-700">繁</button>
@@ -55,7 +54,6 @@
             </div>
         </div>
 
-        <!-- 頁面標題 -->
         <div class="text-center mb-10">
             <h1 class="text-3xl md:text-5xl font-bold gradient-text mb-4" id="main-title">FX Spectrum 專業授權方案</h1>
             <p class="text-slate-400 text-lg mb-8" id="main-subtitle">選擇最適合您的交易規模與平台的方案</p>
@@ -67,10 +65,8 @@
             </div>
         </div>
 
-        <!-- 方案網格區 -->
         <div class="grid lg:grid-cols-3 gap-6 items-stretch">
             
-            <!-- 方案 1: 限時推廣 -->
             <div id="plan1-container" class="relative bg-slate-900 border border-yellow-500/30 rounded-3xl p-8 flex flex-col transition-all hover:border-yellow-500 shadow-xl shadow-yellow-500/5 h-full">
                 <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-500 text-slate-950 px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">Limited Time</div>
                 <div id="plan1-content" class="flex flex-col flex-grow">
@@ -90,7 +86,6 @@
                 </div>
             </div>
 
-            <!-- 方案 2: 綁定指定平台 -->
             <div class="relative bg-slate-900 border border-blue-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-blue-500/5 group h-full">
                 <div class="mb-6">
                     <h3 class="text-xl font-bold text-blue-400 mb-2" id="plan2-title">綁定指定平台付費方案</h3>
@@ -104,7 +99,6 @@
                 <button onclick="openModal('Restricted Plan')" id="btn2" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20 block text-center uppercase font-bold text-sm tracking-wide">立即訂閱</button>
             </div>
 
-            <!-- 方案 3: 不綁定指定平台 -->
             <div class="relative bg-gradient-to-b from-slate-800 to-slate-900 border border-purple-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-purple-500/10 h-full">
                 <div class="mb-6">
                     <h3 class="text-xl font-bold text-purple-400 mb-2" id="plan3-title">不綁定指定平台方案</h3>
@@ -126,7 +120,6 @@
         </div>
     </div>
 
-    <!-- 彈出式表單 (Modal) -->
     <div id="contact-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay modal-hidden bg-black/80 backdrop-blur-sm">
         <div class="relative w-full max-w-lg bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl modal-content p-8 overflow-y-auto max-h-[95vh]">
             <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
@@ -198,7 +191,6 @@
                 </form>
             </div>
 
-            <!-- 成功訊息 (純文字 Logo) -->
             <div id="modal-success-view" class="hidden text-center py-6">
                 <div class="flex justify-center mb-8">
                     <div class="text-center font-black italic tracking-tighter">
@@ -222,249 +214,10 @@
     </div>
 
     <script>
-        // 設定您的 Google Apps Script 網址
-        const scriptURL = 'YOUR_GAS_URL_HERE';
+        // 已更新：整合您的 Google Apps Script 網址
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbx8nu7x2BcSwaxiYGwAIV4irsQzX1P6nOfaeAXU5CJriCjiYTkf-eHLnBDMM85tredt0A/exec';
 
         const icons = {
             fb: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
             ig: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>`,
-            line: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.59.121.303.079.778.039 1.085l-.171 1.027c-.052.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.552-3.953 2.552-5.99zm-15.65 2.652H7.13a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.328 0h-1.22a.452.452 0 0 1-.452-.452V8.358c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm5.726 0h-1.22a.452.452 0 0 1-.452-.452v-2.28l-2.023 2.544c-.067.085-.164.136-.269.136h-.81a.451.451 0 0 1-.355-.733l2.42-3.047v-1.119c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.064-1.353h-1.231v.901a.452.452 0 0 1-.452.452h-1.22a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h3.355c.25 0 .452.202.452.452v.9c0 .25-.202.452-.452.452h-1.451v.683h1.451c.25 0 .452.202.452.452v.9a.452.452 0 0 1-.452.452z"/></svg>`,
-            li: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
-            tg: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#0088cc" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.13-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>`,
-            wc: `<svg class="w-4 h-4" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M660.1 534.6c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm-162 0c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm283 55.4c0-111.4-100.3-201.7-224-201.7S333.1 478.6 333.1 590s100.3 201.7 224 201.7c25.9 0 50.6-3.9 73.4-11l57.2 30.1-15.1-53.1c48.8-34.9 78.4-84.3 78.4-137.7zM457.7 325.2c16.3 0 29.6-13.3 29.6-29.6S474 266 457.7 266s-29.6 13.3-29.6 29.6 13.3 29.6 29.6 29.6zm-203.7 0c16.3 0 29.6-13.3 29.6-29.6S270.3 266 254 266c-16.3 0-29.6 13.3-29.6 29.6s13.3 29.6 29.6 29.6zm414.8 55.5c0-139.2-125.4-252.1-280-252.1S92.5 241.5 92.5 380.7c0 78.3 40.2 147.9 103 194.2l-23.5 82.3 88.9-46.7c35.1 9.8 72.8 15.3 112.5 15.3 7.8 0 15.5-.2 23.1-.6-4.5-20.1-6.9-41.2-6.9-62.8 0-128 115.4-231.7 257.6-231.7 3.5 0 7 0 10.5.1z" fill="#07C160"/></svg>`,
-            wa: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.486-8.413z"/></svg>`,
-            x: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>`
-        };
-
-        const translations = {
-            tc: {
-                title: "FX Spectrum 專業授權方案", subtitle: "選擇最適合您的交易規模與平台的方案",
-                monthly: "月繳", semi: "半年繳", yearly: "年繳 (最划算)",
-                limitedTitle: "限時推廣方案", limitedSub: "※ 僅限本月首 10 位推廣名額, 數量有限",
-                restrictedTitle: "綁定指定平台付費方案", restrictedSub: "適合單一券商交易者",
-                unrestrictedTitle: "不綁定指定平台方案", unrestrictedSub: "專業交易員首選",
-                fullyUnlocked: "完全解鎖", cannotAdd: "不可加選", selectOneOfTwo: "2選1", canAdd: "可加選", trialPeriod: "使用期限 30 天",
-                featureBroker: "綁定官方指定合作券商", featureBrokerRestricted: "官方指定券商帳號 (不可自選)",
-                featureUnrestricted: "不限券商、不限帳號數量", featureStrategy: "專屬一對一策略調優服務",
-                featureSupport: "支持線上技術諮詢", btnClaim: "立即前往領取", btnSubscribe: "立即訂閱",
-                btnContact: "聯絡官方獲取授權", cycleLabel: { monthly: "/ 月", "semi-annual": "/ 半年", yearly: "/ 年" },
-                h1: "極速下單", h1s: "毫秒級毫無延遲", h2: "資金安全", h2s: "嚴格執行止損保本",
-                h3: "利潤極大化", h3s: "全自動移動止盈", h4: "精算配置", h4s: "自動計算每單風險",
-                footer1: "* 付費方案均包含永久技術支援與版本更新。", footer2: "* 「指定平台」係指該授權僅限於與本司簽約之券商帳號。",
-                plan1Unavailable: "此方案僅限月繳試用",
-                modalTitle: "留下聯繫資訊", modalSub: "管理員將儘速與您聯繫", labelLastName: "姓氏 / Last Name", labelFirstName: "名字 / First Name",
-                labelEmail: "信箱 / Email", labelSocial: "社群媒體 ID / Social Media ID", labelPhone: "電話 / Phone",
-                labelMsg: "備註 / Message", btnSubmit: "確認送出", successTitle: "提交成功！", successMsg: "感謝您的留下資訊，我們將儘速與您聯繫。", btnClose: "關閉"
-            },
-            sc: {
-                title: "FX Spectrum 专业授权方案", subtitle: "选择最适合您的交易规模与平台的方案",
-                monthly: "月支付", semi: "半年支付", yearly: "年支付 (最划算)",
-                limitedTitle: "限时推广方案", limitedSub: "※ 仅限本月首 10 位推广名额, 数量有限",
-                restrictedTitle: "绑定指定平台付费方案", restrictedSub: "适合单一券商交易者",
-                unrestrictedTitle: "不绑定指定平台方案", unrestrictedSub: "专业交易员首选",
-                fullyUnlocked: "完全解锁", cannotAdd: "不可加选", selectOneOfTwo: "2选1", canAdd: "可加选", trialPeriod: "使用期限 30 天",
-                featureBroker: "绑定官方指定合作券商", featureBrokerRestricted: "官方指定券商账号 (不可自选)",
-                featureUnrestricted: "不限券商、不限账号数量", featureStrategy: "专属一对一策略调优服务",
-                featureSupport: "支持在线技术咨询", btnClaim: "立即前往领取", btnSubscribe: "立即订阅",
-                btnContact: "联络官方获取授权", cycleLabel: { monthly: "/ 月", "semi-annual": "/ 半年", yearly: "/ 年" },
-                h1: "极速下单", h1s: "毫秒级毫无延迟", h2: "资金安全", h2s: "严格执行止损保本",
-                h3: "利润极大化", h3s: "全自动移动止盈", h4: "極算配置", h4s: "自动计算每单风险",
-                footer1: "* 付费方案均包含永久技术支援与版本更新。", footer2: "* 「指定平台」系指该授权仅限于与本司签约之券商账号。",
-                plan1Unavailable: "此方案仅限月缴试用",
-                modalTitle: "留下联系信息", modalSub: "管理员將尽速与您联系", labelLastName: "姓 / Last Name", labelFirstName: "名 / First Name",
-                labelEmail: "邮箱 / Email", labelSocial: "社群媒体 ID / Social Media ID", labelPhone: "电话 / Phone",
-                labelMsg: "备注 / Message", btnSubmit: "确认提交", successTitle: "提交成功！", successMsg: "感谢您留下信息，我們將尽速与您联系。", btnClose: "关闭"
-            },
-            en: {
-                title: "FX Spectrum Professional Licensing", subtitle: "Choose the plan that best fits your trading scale and platform",
-                monthly: "Monthly", semi: "Semi-Annual", yearly: "Yearly (Best Value)",
-                limitedTitle: "Limited Promotion", limitedSub: "※ Limited to first 10 slots this month only",
-                restrictedTitle: "Platform-Restricted Plan", restrictedSub: "Ideal for single broker traders",
-                unrestrictedTitle: "Unrestricted Platform Plan", unrestrictedSub: "First choice for professional traders",
-                fullyUnlocked: "Fully Unlocked", cannotAdd: "Not Available", selectOneOfTwo: "Select 1 of 2", canAdd: "Add-on Available", trialPeriod: "30-day trial period",
-                featureBroker: "Bound to official partner brokers", featureBrokerRestricted: "Official broker account (Non-selectable)",
-                featureUnrestricted: "No broker limits, unlimited accounts", featureStrategy: "Exclusive 1-on-1 Strategy Optimization",
-                featureSupport: "Online Technical Support", btnClaim: "Claim Now", btnSubscribe: "Subscribe Now",
-                btnContact: "Contact for Authorization", cycleLabel: { monthly: "/ mo", "semi-annual": "/ 6-mo", yearly: "/ yr" },
-                h1: "Rapid Execution", h1s: "Millisecond latency-free", h2: "Capital Security", h2s: "Strict Breakeven execution",
-                h3: "Profit Max", h3s: "Auto Trailing Stop", h4: "Risk Calculation", h4s: "Auto-calculate lot size",
-                footer1: "* Paid plans include lifetime technical support and updates.", footer2: "* 'Restricted Platform' refers to licensing limited to contracted brokers.",
-                plan1Unavailable: "Trial only available for Monthly",
-                modalTitle: "Contact Information", modalSub: "Manager will contact you shortly", labelLastName: "Last Name", labelFirstName: "First Name",
-                labelEmail: "Email", labelSocial: "Social Media ID", labelPhone: "Phone",
-                labelMsg: "Message", btnSubmit: "Submit", successTitle: "Success!", successMsg: "Thank you for your interest. We will reach out to you soon.", btnClose: "Close"
-            }
-        };
-
-        const prices = { restricted: { monthly: 200, semi: 600, yearly: 1000 }, unrestricted: { monthly: 500, semi: 2700, yearly: 5000 } };
-        let currentLang = 'tc';
-        let currentCycle = 'yearly';
-        let currentSocialType = 'Telegram';
-
-        function setLang(l) {
-            currentLang = l;
-            ['tc', 'sc', 'en'].forEach(id => {
-                const btn = document.getElementById('lang-' + id);
-                if(id === l) { btn.classList.add('bg-slate-700', 'text-white'); btn.classList.remove('text-slate-500'); }
-                else { btn.classList.remove('bg-slate-700', 'text-white'); btn.classList.add('text-slate-500'); }
-            });
-            render();
-        }
-
-        function setCycle(c) {
-            currentCycle = c;
-            ['monthly', 'semi', 'yearly'].forEach(id => {
-                const btn = document.getElementById('btn-' + id);
-                const isMatch = (c === 'semi-annual' ? 'semi' : c) === id;
-                if(isMatch) { btn.classList.add('bg-slate-700', 'text-white', 'shadow-lg'); btn.classList.remove('text-slate-500'); }
-                else { btn.classList.remove('bg-slate-700', 'text-white', 'shadow-lg'); btn.classList.add('text-slate-500'); }
-            });
-            render();
-        }
-
-        function toggleSocialList() { document.getElementById('social-list').classList.toggle('show'); }
-        function selectSocial(type) {
-            currentSocialType = type;
-            const iconMap = { Facebook: 'fb', Instagram: 'ig', LINE: 'line', LinkedIn: 'li', Telegram: 'tg', WeChat: 'wc', WhatsApp: 'wa', X: 'x' };
-            document.getElementById('selected-icon').innerHTML = icons[iconMap[type]];
-            document.getElementById('selected-label').innerText = type;
-            document.getElementById('social-list').classList.remove('show');
-        }
-
-        function openModal(plan) {
-            document.getElementById('input-plan').value = plan;
-            const modal = document.getElementById('contact-modal');
-            modal.classList.remove('modal-hidden');
-            document.getElementById('modal-form-view').classList.remove('hidden');
-            document.getElementById('modal-success-view').classList.add('hidden');
-            document.getElementById('lead-form').reset();
-            selectSocial('Telegram'); 
-            lucide.createIcons();
-        }
-
-        function closeModal() { document.getElementById('contact-modal').classList.add('modal-hidden'); }
-
-        document.getElementById('lead-form').onsubmit = function(e) {
-            e.preventDefault();
-            const data = {
-                plan: document.getElementById('input-plan').value,
-                cycle: currentCycle,
-                lastName: document.getElementById('input-lastname').value,
-                firstName: document.getElementById('input-firstname').value,
-                email: document.getElementById('input-email').value,
-                socialType: currentSocialType,
-                socialId: document.getElementById('input-social-id').value,
-                phone: document.getElementById('input-phone').value,
-                message: document.getElementById('input-msg').value,
-                timestamp: new Date().toISOString()
-            };
-            if (scriptURL !== 'YOUR_GAS_URL_HERE') {
-                fetch(scriptURL, { method: 'POST', mode: 'no-cors', cache: 'no-cache', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
-            }
-            document.getElementById('modal-form-view').classList.add('hidden');
-            document.getElementById('modal-success-view').classList.remove('hidden');
-            lucide.createIcons();
-        };
-
-        function render() {
-            try {
-                const t = translations[currentLang];
-                const cycleKey = currentCycle === 'semi-annual' ? 'semi' : currentCycle;
-                const cycleText = t.cycleLabel[currentCycle];
-
-                document.getElementById('main-title').innerText = t.title;
-                document.getElementById('main-subtitle').innerText = t.subtitle;
-                document.getElementById('btn-monthly').innerText = t.monthly;
-                document.getElementById('btn-semi').innerText = t.semi;
-                document.getElementById('btn-yearly').innerText = t.yearly;
-
-                const p1c = document.getElementById('plan1-content');
-                const p1u = document.getElementById('plan1-unavailable');
-                const p1cont = document.getElementById('plan1-container');
-                if (currentCycle === 'monthly') {
-                    p1c.classList.remove('hidden'); p1c.classList.add('flex'); p1u.classList.add('hidden'); p1cont.classList.remove('plan-disabled');
-                    document.getElementById('plan1-title').innerText = t.limitedTitle;
-                    document.getElementById('plan1-sub').innerText = t.limitedSub;
-                    document.getElementById('plan1-cycle').innerText = cycleText;
-                    document.getElementById('btn1').innerText = t.btnClaim;
-                    document.getElementById('list-limited').innerHTML = `
-                        <li class="flex items-center text-sm text-slate-300"><i data-lucide="lock" class="text-yellow-500 mr-3 w-4 h-4"></i>${t.featureBroker}</li>
-                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>T Assistant</li>
-                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Exit Plus (${t.cannotAdd})</li>
-                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Risk Reward (${t.cannotAdd})</li>
-                        <li class="flex items-start text-sm text-slate-300 font-bold italic underline decoration-yellow-500/50"><i data-lucide="calendar-days" class="text-yellow-500 mr-3 mt-1 w-4 h-4"></i>${t.trialPeriod}</li>
-                    `;
-                } else {
-                    p1c.classList.add('hidden'); p1c.classList.remove('flex'); p1u.classList.remove('hidden'); p1cont.classList.add('plan-disabled');
-                    document.getElementById('plan1-unavailable-msg').innerText = t.plan1Unavailable;
-                }
-
-                document.getElementById('plan2-title').innerText = t.restrictedTitle;
-                document.getElementById('plan2-sub').innerText = t.restrictedSub;
-                document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
-                document.getElementById('label-restricted').innerText = cycleText;
-                document.getElementById('btn2').innerText = t.btnSubscribe;
-                document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
-                document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
-                document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
-                document.getElementById('label-unrestricted').innerText = cycleText;
-                document.getElementById('btn3').innerText = t.btnContact;
-
-                let pal = ` (${t.cannotAdd})`; let pai = 'x'; let pac = 'text-red-500';
-                if (currentCycle === 'semi-annual') { pal = ` (${t.selectOneOfTwo})`; pai = 'check'; pac = 'text-green-400'; }
-                else if (currentCycle === 'yearly') { pal = ` (${t.canAdd})`; pai = 'check'; pac = 'text-green-400'; }
-                const tas = currentCycle === 'yearly' ? ` (${t.fullyUnlocked})` : '';
-
-                const listPaid = (r) => `
-                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="${r?'lock':'globe'}" class="text-${r?'blue':'purple'}-400 mr-3 w-4 h-4"></i>${r?t.featureBrokerRestricted:t.featureUnrestricted}</li>
-                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>T Assistant${tas}</li>
-                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Exit Plus${pal}</li>
-                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Risk Reward${pal}</li>
-                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureStrategy}</li>
-                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureSupport}</li>
-                `;
-                document.getElementById('list-restricted').innerHTML = listPaid(true);
-                document.getElementById('list-unrestricted').innerHTML = listPaid(false);
-
-                document.getElementById('highlights').innerHTML = [
-                    { i: 'zap', c: 'yellow', t: t.h1, s: t.h1s }, { i: 'shield', c: 'blue', t: t.h2, s: t.h2s }, { i: 'trending-up', c: 'green', t: t.h3, s: t.h3s }, { i: 'dollar-sign', c: 'orange', t: t.h4, s: t.h4s }
-                ].map(h => `<div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center h-full flex flex-col justify-center transition-all hover:bg-slate-900">
-                    <div class="flex justify-center mb-2"><i data-lucide="${h.i}" class="text-${h.c}-500"></i></div>
-                    <div class="text-sm font-bold">${h.t}</div>
-                    <div class="text-[10px] text-slate-500">${h.s}</div>
-                </div>`).join('');
-                document.getElementById('footer1').innerText = t.footer1;
-                document.getElementById('footer2').innerText = t.footer2;
-
-                document.getElementById('modal-title').innerText = t.modalTitle;
-                document.getElementById('modal-subtitle').innerText = t.modalSub;
-                document.getElementById('label-lastname').innerText = t.labelLastName;
-                document.getElementById('label-firstname').innerText = t.labelFirstName;
-                document.getElementById('label-email').innerText = t.labelEmail;
-                document.getElementById('label-social').innerText = t.labelSocial;
-                document.getElementById('label-phone').innerText = t.labelPhone;
-                document.getElementById('label-message').innerText = t.labelMsg;
-                document.getElementById('btn-submit').innerText = t.btnSubmit;
-                document.getElementById('success-title').innerText = t.successTitle;
-                document.getElementById('success-msg').innerText = t.successMsg;
-                document.getElementById('btn-close').innerText = t.btnClose;
-
-                document.querySelector('.social-icon-fb').innerHTML = icons.fb;
-                document.querySelector('.social-icon-ig').innerHTML = icons.ig;
-                document.querySelector('.social-icon-line').innerHTML = icons.line;
-                document.querySelector('.social-icon-li').innerHTML = icons.li;
-                document.querySelector('.social-icon-tg').innerHTML = icons.tg;
-                document.querySelector('.social-icon-wc').innerHTML = icons.wc;
-                document.querySelector('.social-icon-wa').innerHTML = icons.wa;
-                document.querySelector('.social-icon-x').innerHTML = icons.x;
-
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-            } catch (e) { console.error("Render error:", e); }
-        }
-
-        document.addEventListener('DOMContentLoaded', render);
-        window.onload = render;
-        window.onclick = function(e) { if (!e.target.closest('#social-selector-btn') && !e.target.closest('#social-list')) document.getElementById('social-list').classList.remove('show'); }
-    </script>
-</body>
-</html>
+            line: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057
