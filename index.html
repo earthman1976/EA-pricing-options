@@ -1,291 +1,244 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FX Spectrum Professional Licensing</title>
-    <!-- 外部資源載入 -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-        
-        body { 
-            font-family: 'Inter', sans-serif; 
-            overflow-x: hidden;
-        }
-
+        body { font-family: 'Inter', sans-serif; }
         .gradient-text {
             background: linear-gradient(to right, #facc15, #fb923c, #facc15);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
+        /* 數位品牌形象專用漸層 */
         .brand-gradient {
             background: linear-gradient(to right, #22d3ee, #a855f7, #ec4899);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
-
-        /* 互動元素效果 */
-        button, a { cursor: pointer; transition: all 0.2s ease; }
+        button, a { cursor: pointer; }
+        .plan-disabled { opacity: 0.5; filter: grayscale(0.5); pointer-events: none; }
         
-        /* 方案禁用狀態 */
-        .plan-disabled { 
-            opacity: 0.4; 
-            filter: grayscale(0.8); 
-            pointer-events: none; 
-            user-select: none;
-        }
-
         /* Modal 動畫效果 */
-        .modal-overlay { 
-            transition: opacity 0.3s ease; 
-        }
-        .modal-content { 
-            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease; 
-        }
-        .modal-hidden { 
-            opacity: 0; 
-            pointer-events: none; 
-            visibility: hidden;
-        }
-        .modal-hidden .modal-content { 
-            transform: scale(0.95) translateY(10px); 
-        }
+        .modal-overlay { transition: opacity 0.3s ease; }
+        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
+        .modal-hidden { opacity: 0; pointer-events: none; }
+        .modal-hidden .modal-content { transform: scale(0.95); }
 
-        /* 自定義捲軸 */
-        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        /* Modal 滾動條樣式 */
+        .modal-content::-webkit-scrollbar { width: 6px; }
+        .modal-content::-webkit-scrollbar-track { background: transparent; }
+        .modal-content::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
 
-        /* 社群選單下拉 */
+        /* 自定義社群下拉選單 */
         .custom-select-list {
-            display: none; 
-            position: absolute; 
-            top: 100%; 
-            left: 0; 
-            right: 0; 
-            z-index: 60;
-            margin-top: 0.5rem; 
-            background: #1e293b; 
-            border: 1px solid #475569;
-            border-radius: 1rem; 
-            overflow: hidden; 
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+            display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
+            margin-top: 0.5rem; background: #1e293b; border: 1px solid #475569;
+            border-radius: 1rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
         }
         .custom-select-list.show { display: block; }
-
-        /* 亮點卡片 hover */
-        .highlight-card:hover {
-            transform: translateY(-4px);
-            background: rgba(30, 41, 59, 0.8);
-        }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen p-4 md:p-8 flex flex-col items-center">
+<body class="bg-slate-950 text-white min-h-screen p-4 md:p-8">
 
-    <div class="max-w-7xl w-full mx-auto" id="app">
-        <!-- 語言切換 -->
-        <div class="flex justify-end mb-8">
-            <div class="inline-flex bg-slate-900 p-1 rounded-xl border border-slate-800 shadow-lg">
-                <button onclick="setLang('tc')" id="lang-tc" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all">繁</button>
-                <button onclick="setLang('sc')" id="lang-sc" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all">简</button>
-                <button onclick="setLang('en')" id="lang-en" class="px-4 py-1.5 rounded-lg text-xs font-bold transition-all">EN</button>
+    <div class="max-w-7xl mx-auto" id="app">
+        <!-- 頂部語言切換選單 (包含地球圖示) -->
+        <div class="flex justify-end mb-4">
+            <div class="flex items-center bg-slate-900 p-1 px-3 rounded-xl border border-slate-800">
+                <i data-lucide="globe" class="w-4 h-4 mr-2 text-slate-400"></i>
+                <div class="flex gap-1">
+                    <button onclick="setLang('en')" id="lang-en" class="px-3 py-1 rounded-lg text-xs font-bold transition-all bg-slate-700 text-white">EN</button>
+                    <button onclick="setLang('tc')" id="lang-tc" class="px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-300">繁</button>
+                    <button onclick="setLang('sc')" id="lang-sc" class="px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-300">简</button>
+                </div>
             </div>
         </div>
 
-        <!-- 標題區域 -->
-        <div class="text-center mb-12">
-            <h1 class="text-3xl md:text-6xl font-black gradient-text mb-6 tracking-tight" id="main-title">FX Spectrum 專業授權方案</h1>
-            <p class="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-10" id="main-subtitle">選擇最適合您的交易規模與平台的方案</p>
+        <!-- 頁面標題 -->
+        <div class="text-center mb-10">
+            <h1 class="text-3xl md:text-5xl font-bold gradient-text mb-4" id="main-title">FX Spectrum Professional Licensing</h1>
+            <p class="text-slate-400 text-lg mb-8" id="main-subtitle">Choose the plan that best fits your trading scale and platform</p>
 
-            <!-- 繳費週期切換 -->
-            <div class="inline-flex bg-slate-900 p-1.5 rounded-2xl border border-slate-800 shadow-inner">
-                <button onclick="setCycle('monthly')" id="btn-monthly" class="px-8 py-2.5 rounded-xl text-sm font-bold transition-all">月繳</button>
-                <button onclick="setCycle('semi-annual')" id="btn-semi" class="px-8 py-2.5 rounded-xl text-sm font-bold transition-all">半年繳</button>
-                <button onclick="setCycle('yearly')" id="btn-yearly" class="px-8 py-2.5 rounded-xl text-sm font-bold transition-all">年繳 (最划算)</button>
+            <div class="inline-flex bg-slate-900 p-1 rounded-2xl border border-slate-800">
+                <button onclick="setCycle('monthly')" id="btn-monthly" class="px-6 py-2 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-300">Monthly</button>
+                <button onclick="setCycle('semi-annual')" id="btn-semi" class="px-6 py-2 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-300">Semi-Annual</button>
+                <button onclick="setCycle('yearly')" id="btn-yearly" class="px-6 py-2 rounded-xl text-sm font-bold transition-all bg-slate-700 text-white shadow-lg">Yearly (Best Value)</button>
             </div>
         </div>
 
-        <!-- 方案網格 -->
-        <div class="grid lg:grid-cols-3 gap-8 items-stretch mb-20">
+        <!-- 方案網格區 -->
+        <div class="grid lg:grid-cols-3 gap-6 items-stretch">
             
             <!-- 方案 1: 限時推廣 -->
-            <div id="plan1-container" class="relative bg-slate-900 border border-yellow-500/30 rounded-[2.5rem] p-10 flex flex-col transition-all hover:border-yellow-500 shadow-2xl shadow-yellow-500/5 h-full overflow-hidden">
-                <div class="absolute -top-1 -right-1 bg-yellow-500 text-slate-950 px-6 py-2 rounded-bl-3xl font-black text-[10px] uppercase tracking-[0.2em]">Limited Time</div>
-                
-                <div id="plan1-content" class="flex flex-col h-full">
-                    <div class="mb-8">
-                        <h3 class="text-2xl font-black text-yellow-500 mb-3" id="plan1-title">限時推廣方案</h3>
+            <div id="plan1-container" class="relative bg-slate-900 border border-yellow-500/30 rounded-3xl p-8 flex flex-col transition-all hover:border-yellow-500 shadow-xl shadow-yellow-500/5 h-full">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-500 text-slate-950 px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">Limited Time</div>
+                <div id="plan1-content" class="flex flex-col flex-grow text-white">
+                    <div class="mb-6">
+                        <h3 class="text-xl font-bold text-yellow-500 mb-2" id="plan1-title">Limited Promotion</h3>
                         <div class="flex items-baseline text-white">
-                            <span class="text-5xl font-black tracking-tighter">$0</span>
-                            <span class="ml-2 text-slate-500 font-bold" id="plan1-cycle">/ 月</span>
+                            <span class="text-4xl font-black">$0</span>
+                            <span class="ml-2 text-slate-500 text-sm" id="plan1-cycle">/ yr</span>
                         </div>
-                        <p class="text-xs text-yellow-500/80 mt-4 font-semibold leading-relaxed" id="plan1-sub">※ 僅限本月首 10 位推廣名額, 數量有限</p>
+                        <p class="text-xs text-yellow-500/70 mt-2 font-medium" id="plan1-sub">※ Limited slots available, act fast</p>
                     </div>
-                    <ul class="space-y-5 mb-10 flex-grow" id="list-limited"></ul>
-                    <button onclick="openModal('Limited Trial')" id="btn1" class="w-full py-5 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-xl shadow-yellow-500/20 uppercase text-sm tracking-widest">立即前往領取</button>
+                    <ul class="space-y-4 mb-8 flex-grow" id="list-limited"></ul>
+                    <button onclick="openModal('Limited Trial')" id="btn1" class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10 block text-center uppercase font-bold text-sm tracking-wide">Claim Now</button>
                 </div>
-
-                <div id="plan1-unavailable" class="hidden absolute inset-0 bg-slate-950/40 backdrop-blur-[2px] flex items-center justify-center text-center p-8">
-                    <p class="text-slate-400 font-bold text-lg italic bg-slate-900/80 px-6 py-4 rounded-2xl border border-white/5 shadow-2xl" id="plan1-unavailable-msg"></p>
+                <div id="plan1-unavailable" class="hidden flex-grow flex items-center justify-center text-center py-10">
+                    <p class="text-slate-500 italic text-sm" id="plan1-unavailable-msg"></p>
                 </div>
             </div>
 
-            <!-- 方案 2: 綁定平台 -->
-            <div class="relative bg-slate-900 border border-blue-500/40 rounded-[2.5rem] p-10 flex flex-col transition-all hover:border-blue-500 shadow-2xl shadow-blue-500/5 h-full">
-                <div class="mb-8">
-                    <h3 class="text-2xl font-black text-blue-400 mb-3" id="plan2-title">綁定指定平台付費方案</h3>
-                    <div class="flex items-baseline text-white">
-                        <span class="text-5xl font-black tracking-tighter" id="price-restricted">$1,000</span>
-                        <span class="ml-2 text-slate-500 font-bold" id="label-restricted">/ 年</span>
+            <!-- 方案 2: 綁定指定平台 -->
+            <div class="relative bg-slate-900 border border-blue-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-blue-500/5 group h-full text-white">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-blue-400 mb-2" id="plan2-title">Platform-Restricted Plan</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-black" id="price-restricted">$1,000</span>
+                        <span class="ml-2 text-slate-500 text-sm" id="label-restricted">/ yr</span>
                     </div>
-                    <p class="text-xs text-slate-500 mt-4 font-medium" id="plan2-sub">適合單一券商交易者</p>
+                    <p class="text-xs text-slate-500 mt-2" id="plan2-sub">Ideal for single broker traders</p>
                 </div>
-                <ul class="space-y-5 mb-10 flex-grow" id="list-restricted"></ul>
-                <button onclick="openModal('Restricted Plan')" id="btn2" class="w-full py-5 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-xl shadow-blue-500/20 uppercase text-sm tracking-widest">立即訂閱</button>
+                <ul class="space-y-4 mb-8 flex-grow" id="list-restricted"></ul>
+                <button onclick="openModal('Restricted Plan')" id="btn2" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20 block text-center uppercase font-bold text-sm tracking-wide">Subscribe Now</button>
             </div>
 
-            <!-- 方案 3: 不綁定平台 -->
-            <div class="relative bg-gradient-to-br from-slate-800 to-slate-900 border border-purple-500/50 rounded-[2.5rem] p-10 flex flex-col transition-all hover:border-purple-400 shadow-2xl shadow-purple-500/10 h-full">
-                <div class="mb-8">
-                    <div class="flex items-center gap-2 mb-3">
-                        <h3 class="text-2xl font-black text-purple-400" id="plan3-title">不綁定指定平台方案</h3>
+            <!-- 方案 3: 不綁定指定平台 -->
+            <div class="relative bg-gradient-to-b from-slate-800 to-slate-900 border border-purple-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-purple-500/10 h-full text-white">
+                <div class="mb-6">
+                    <h3 class="text-xl font-bold text-purple-400 mb-2" id="plan3-title">Unrestricted Platform Plan</h3>
+                    <div class="flex items-baseline">
+                        <span class="text-4xl font-black" id="price-unrestricted">$5,000</span>
+                        <span class="ml-2 text-slate-500 text-sm" id="label-unrestricted">/ yr</span>
                     </div>
-                    <div class="flex items-baseline text-white">
-                        <span class="text-5xl font-black tracking-tighter" id="price-unrestricted">$5,000</span>
-                        <span class="ml-2 text-slate-500 font-bold" id="label-unrestricted">/ 年</span>
-                    </div>
-                    <p class="text-xs text-purple-300/60 mt-4 font-medium" id="plan3-sub">專業交易員首選</p>
+                    <p class="text-xs text-slate-500 mt-2 text-purple-300/70" id="plan3-sub">First choice for professional traders</p>
                 </div>
-                <ul class="space-y-5 mb-10 flex-grow" id="list-unrestricted"></ul>
-                <button onclick="openModal('Unrestricted Plan')" id="btn3" class="w-full py-5 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-xl shadow-purple-500/30 uppercase text-sm tracking-widest">聯絡官方獲取授權</button>
+                <ul class="space-y-4 mb-8 flex-grow" id="list-unrestricted"></ul>
+                <button onclick="openModal('Unrestricted Plan')" id="btn3" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40 block text-center uppercase font-bold text-sm tracking-wide">Contact for Auth</button>
             </div>
         </div>
 
-        <!-- 特色亮點 -->
-        <div class="mt-8 grid grid-cols-2 md:grid-cols-4 gap-6 mb-20" id="highlights"></div>
-
-        <!-- 頁尾聲明 -->
-        <div class="mt-12 text-center space-y-3 pb-12">
-            <p class="text-slate-500 text-xs italic font-medium opacity-60" id="footer1"></p>
-            <p class="text-slate-500 text-xs italic font-medium opacity-60" id="footer2"></p>
+        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4" id="highlights"></div>
+        <div class="mt-12 text-center space-y-2">
+            <p class="text-slate-500 text-xs italic" id="footer1"></p>
+            <p class="text-slate-500 text-xs italic" id="footer2"></p>
         </div>
     </div>
 
-    <!-- 聯繫 Modal -->
-    <div id="contact-modal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 modal-overlay modal-hidden bg-black/90 backdrop-blur-md">
-        <div class="relative w-full max-w-xl bg-slate-900 border border-slate-800 rounded-[2.5rem] shadow-[0_0_100px_rgba(0,0,0,0.8)] modal-content p-10 custom-scrollbar overflow-y-auto max-h-[90vh]">
-            <button onclick="closeModal()" class="absolute top-8 right-8 text-slate-500 hover:text-white transition-colors bg-slate-800/50 p-2 rounded-full">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </button>
+    <!-- 彈出對話窗 (Modal) -->
+    <div id="contact-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay modal-hidden bg-black/80 backdrop-blur-sm">
+        <div class="relative w-full max-w-lg bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl modal-content p-8 overflow-y-auto max-h-[95vh]">
+            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
 
+            <!-- 資訊輸入視圖 -->
             <div id="modal-form-view">
-                <div class="flex items-center gap-5 mb-10">
-                    <div class="p-5 bg-yellow-500/10 rounded-3xl border border-yellow-500/20">
-                        <i data-lucide="message-square" class="text-yellow-500 w-8 h-8"></i>
-                    </div>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="p-3 bg-yellow-500/20 rounded-2xl"><i data-lucide="message-square" class="text-yellow-500 w-6 h-6"></i></div>
                     <div>
-                        <h2 class="text-3xl font-black text-white tracking-tight" id="modal-title">留下聯繫資訊</h2>
-                        <p class="text-slate-400 text-sm font-medium mt-1" id="modal-subtitle">管理員將儘速與您聯繫</p>
+                        <h2 class="text-2xl font-bold text-white" id="modal-title">Contact Information</h2>
+                        <p class="text-slate-400 text-sm" id="modal-subtitle">Manager will reach out to you shortly</p>
                     </div>
                 </div>
 
-                <form id="lead-form" class="space-y-6">
+                <form id="lead-form" class="space-y-4">
                     <input type="hidden" id="input-plan" name="plan">
-                    
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-1" id="label-lastname">姓氏 / Last Name</label>
-                            <input type="text" id="input-lastname" required placeholder="Ex: Wang" class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm shadow-inner font-medium">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-lastname">Last Name</label>
+                            <input type="text" id="input-lastname" required placeholder="Ex: Wang" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-1" id="label-firstname">名字 / First Name</label>
-                            <input type="text" id="input-firstname" required placeholder="Ex: Xiao Ming" class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm shadow-inner font-medium">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-firstname">First Name</label>
+                            <input type="text" id="input-firstname" required placeholder="Ex: Xiao Ming" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-1" id="label-email">信箱 / Email</label>
-                            <input type="email" id="input-email" required placeholder="example@mail.com" class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm shadow-inner font-medium">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-email">Email</label>
+                            <input type="email" id="input-email" required placeholder="example@mail.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                         <div>
-                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-1" id="label-phone">電話 / Phone</label>
-                            <input type="tel" id="input-phone" required placeholder="Ex: +886 912..." class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm shadow-inner font-medium">
+                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-phone">Phone</label>
+                            <input type="tel" id="input-phone" required placeholder="Ex: +886 912..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                     </div>
 
                     <div class="relative">
-                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-1" id="label-social">社群媒體 ID / Social Media ID</label>
-                        <div class="flex gap-3">
-                            <div class="relative min-w-[150px]">
-                                <button type="button" onclick="toggleSocialList()" id="social-selector-btn" class="w-full flex items-center justify-between bg-slate-800/50 border border-slate-700 rounded-2xl px-4 py-4 text-white text-sm focus:outline-none focus:border-yellow-500 shadow-inner font-medium">
-                                    <div class="flex items-center gap-3" id="selected-social-view">
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-social">Social Media ID</label>
+                        <div class="flex gap-2">
+                            <div class="relative min-w-[140px]">
+                                <button type="button" onclick="toggleSocialList()" id="social-selector-btn" class="w-full flex items-center justify-between bg-slate-800 border border-slate-700 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-yellow-500">
+                                    <div class="flex items-center gap-2" id="selected-social-view">
                                         <span id="selected-icon"></span><span id="selected-label">Telegram</span>
                                     </div>
                                     <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
                                 </button>
                                 <div id="social-list" class="custom-select-list">
-                                    <button type="button" onclick="selectSocial('Facebook')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-fb"></span> Facebook</button>
-                                    <button type="button" onclick="selectSocial('Instagram')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-ig"></span> Instagram</button>
-                                    <button type="button" onclick="selectSocial('LINE')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-line"></span> LINE</button>
-                                    <button type="button" onclick="selectSocial('LinkedIn')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-li"></span> LinkedIn</button>
-                                    <button type="button" onclick="selectSocial('Telegram')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-tg"></span> Telegram</button>
-                                    <button type="button" onclick="selectSocial('WeChat')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-wc"></span> WeChat</button>
-                                    <button type="button" onclick="selectSocial('WhatsApp')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-wa"></span> WhatsApp</button>
-                                    <button type="button" onclick="selectSocial('X')" class="w-full flex items-center gap-4 px-5 py-4 hover:bg-slate-700 text-white text-sm"><span class="social-icon-x"></span> X (Twitter)</button>
+                                    <button type="button" onclick="selectSocial('Facebook')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-fb"></span> Facebook</button>
+                                    <button type="button" onclick="selectSocial('Instagram')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-ig"></span> Instagram</button>
+                                    <button type="button" onclick="selectSocial('LINE')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-line"></span> LINE</button>
+                                    <button type="button" onclick="selectSocial('LinkedIn')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-li"></span> LinkedIn</button>
+                                    <button type="button" onclick="selectSocial('Telegram')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-tg"></span> Telegram</button>
+                                    <button type="button" onclick="selectSocial('WeChat')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-wc"></span> WeChat</button>
+                                    <button type="button" onclick="selectSocial('WhatsApp')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-wa"></span> WhatsApp</button>
+                                    <button type="button" onclick="selectSocial('X')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm"><span class="social-icon-x"></span> X (Twitter)</button>
                                 </div>
                             </div>
-                            <input type="text" id="input-social-id" required placeholder="ID / Username" class="flex-grow bg-slate-800/50 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm shadow-inner font-medium">
+                            <input type="text" id="input-social-id" required placeholder="ID / Username" class="flex-grow bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] mb-3 ml-1" id="label-message">備註 / Message</label>
-                        <textarea id="input-msg" rows="3" placeholder="..." class="w-full bg-slate-800/50 border border-slate-700 rounded-2xl px-5 py-4 text-white focus:outline-none focus:border-yellow-500 transition-colors resize-none text-sm shadow-inner font-medium"></textarea>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-message">Message</label>
+                        <textarea id="input-msg" rows="2" placeholder="..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors resize-none text-sm"></textarea>
                     </div>
 
-                    <button type="submit" class="w-full py-5 bg-gradient-to-r from-yellow-500 to-orange-500 text-slate-950 font-black rounded-[1.5rem] transition-all shadow-2xl hover:brightness-110 active:scale-[0.98] mt-4 uppercase tracking-[0.1em]" id="btn-submit">確認送出</button>
+                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-slate-950 font-black rounded-2xl transition-all shadow-lg hover:brightness-110 mt-2" id="btn-submit">Submit</button>
                 </form>
             </div>
 
-            <!-- 成功訊息畫面 -->
-            <div id="modal-success-view" class="hidden text-center py-10">
-                <div class="flex justify-center mb-10">
+            <!-- 成功訊息 (數位文字形象) -->
+            <div id="modal-success-view" class="hidden text-center py-6">
+                <div class="flex justify-center mb-8">
                     <div class="text-center font-black italic tracking-tighter">
                         <span class="text-4xl md:text-5xl brand-gradient leading-none block">FX SPECTRUM</span>
-                        <div class="text-[9px] tracking-[0.4em] text-slate-500 mt-2 uppercase font-bold opacity-60">Global Market Analysis</div>
+                        <div class="text-[9px] tracking-[0.35em] text-slate-500 mt-1 uppercase font-bold opacity-80">Global Market Analysis</div>
                     </div>
                 </div>
 
-                <div class="flex justify-center mb-8">
-                    <div class="p-6 bg-green-500/10 rounded-full animate-bounce">
-                        <i data-lucide="check-circle-2" class="text-green-500 w-16 h-16"></i>
+                <div class="flex justify-center mb-6">
+                    <div class="p-4 bg-green-500/20 rounded-full animate-pulse">
+                        <i data-lucide="check-circle-2" class="text-green-500 w-12 h-12"></i>
                     </div>
                 </div>
-                <h2 class="text-4xl font-black text-white mb-4 tracking-tight" id="success-title">提交成功！</h2>
-                <p class="text-slate-400 mb-10 max-w-sm mx-auto font-medium" id="success-msg">感謝您的留下資訊，我們將儘速與您聯繫。</p>
-                <button onclick="closeModal()" class="px-16 py-4 bg-slate-800 hover:bg-slate-700 text-white font-black rounded-2xl transition-all border border-slate-700 shadow-xl uppercase text-sm tracking-widest" id="btn-close">
-                    關閉
+                <h2 class="text-3xl font-bold text-white mb-4" id="success-title">Success!</h2>
+                <p class="text-slate-400 mb-8 max-w-xs mx-auto" id="success-msg">Thank you for your interest. We will reach out to you shortly.</p>
+                <button onclick="closeModal()" class="px-10 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition-all border border-slate-600" id="btn-close">
+                    Close
                 </button>
             </div>
         </div>
     </div>
 
     <script>
+        // --- 核心配置：您的 Google Apps Script 網址 ---
         const scriptURL = 'https://script.google.com/macros/s/AKfycbx8nu7x2BcSwaxiYGwAIV4irsQzX1P6nOfaeAXU5CJriCjiYTkf-eHLnBDMM85tredt0A/exec';
 
+        // 品牌彩色圖示定義
         const icons = {
-            fb: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
-            ig: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>`,
-            line: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.59.121.303.079.778.039 1.085l-.171 1.027c-.052.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.552-3.953 2.552-5.99zm-15.65 2.652H7.13a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.328 0h-1.22a.452.452 0 0 1-.452-.452V8.358c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm5.726 0h-1.22a.452.452 0 0 1-.452-.452v-2.28l-2.023 2.544c-.067.085-.164.136-.269.136h-.81a.451.451 0 0 1-.355-.733l2.42-3.047v-1.119c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.064-1.353h-1.231v.901a.452.452 0 0 1-.452.452h-1.22a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h3.355c.25 0 .452.202.452.452v.9c0 .25-.202.452-.452.452h-1.451v.683h1.451c.25 0 .452.202.452.452v.9a.452.452 0 0 1-.452.452z"/></svg>`,
-            li: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
-            tg: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#0088cc" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.13-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>`,
-            wc: `<svg class="w-5 h-5" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M660.1 534.6c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm-162 0c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm283 55.4c0-111.4-100.3-201.7-224-201.7S333.1 478.6 333.1 590s100.3 201.7 224 201.7c25.9 0 50.6-3.9 73.4-11l57.2 30.1-15.1-53.1c48.8-34.9 78.4-84.3 78.4-137.7zM457.7 325.2c16.3 0 29.6-13.3 29.6-29.6S474 266 457.7 266s-29.6 13.3-29.6 29.6 13.3 29.6 29.6 29.6zm-203.7 0c16.3 0 29.6-13.3 29.6-29.6S270.3 266 254 266c-16.3 0-29.6 13.3-29.6 29.6s13.3 29.6 29.6 29.6zm414.8 55.5c0-139.2-125.4-252.1-280-252.1S92.5 241.5 92.5 380.7c0 78.3 40.2 147.9 103 194.2l-23.5 82.3 88.9-46.7c35.1 9.8 72.8 15.3 112.5 15.3 7.8 0 15.5-.2 23.1-.6-4.5-20.1-6.9-41.2-6.9-62.8 0-128 115.4-231.7 257.6-231.7 3.5 0 7 0 10.5.1z" fill="#07C160"/></svg>`,
-            wa: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.486-8.413z"/></svg>`,
-            x: `<svg class="w-5 h-5" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>`
+            fb: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#1877F2" xmlns="http://www.w3.org/2000/svg"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
+            ig: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#E4405F" xmlns="http://www.w3.org/2000/svg"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>`,
+            line: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#06C755" xmlns="http://www.w3.org/2000/svg"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.59.121.303.079.778.039 1.085l-.171 1.027c-.052.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.552-3.953 2.552-5.99zm-15.65 2.652H7.13a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.328 0h-1.22a.452.452 0 0 1-.452-.452V8.358c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm5.726 0h-1.22a.452.452 0 0 1-.452-.452v-2.28l-2.023 2.544c-.067.085-.164.136-.269.136h-.81a.451.451 0 0 1-.355-.733l2.42-3.047v-1.119c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.064-1.353h-1.231v.901a.452.452 0 0 1-.452.452h-1.22a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h3.355c.25 0 .452.202.452.452v.9c0 .25-.202.452-.452.452h-1.451v.683h1.451c.25 0 .452.202.452.452v.9a.452.452 0 0 1-.452.452z"/></svg>`,
+            li: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#0A66C2" xmlns="http://www.w3.org/2000/svg"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
+            tg: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#0088cc" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.13-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>`,
+            wc: `<svg class="w-4 h-4" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg"><path d="M660.1 534.6c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm-162 0c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm283 55.4c0-111.4-100.3-201.7-224-201.7S333.1 478.6 333.1 590s100.3 201.7 224 201.7c25.9 0 50.6-3.9 73.4-11l57.2 30.1-15.1-53.1c48.8-34.9 78.4-84.3 78.4-137.7zM457.7 325.2c16.3 0 29.6-13.3 29.6-29.6S474 266 457.7 266s-29.6 13.3-29.6 29.6 13.3 29.6 29.6 29.6zm-203.7 0c16.3 0 29.6-13.3 29.6-29.6S270.3 266 254 266c-16.3 0-29.6 13.3-29.6 29.6s13.3 29.6 29.6 29.6zm414.8 55.5c0-139.2-125.4-252.1-280-252.1S92.5 241.5 92.5 380.7c0 78.3 40.2 147.9 103 194.2l-23.5 82.3 88.9-46.7c35.1 9.8 72.8 15.3 112.5 15.3 7.8 0 15.5-.2 23.1-.6-4.5-20.1-6.9-41.2-6.9-62.8 0-128 115.4-231.7 257.6-231.7 3.5 0 7 0 10.5.1z" fill="#07C160"/></svg>`,
+            wa: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#25D366" xmlns="http://www.w3.org/2000/svg"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.486-8.413z"/></svg>`,
+            x: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#FFFFFF" xmlns="http://www.w3.org/2000/svg"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>`
         };
 
         const translations = {
@@ -311,7 +264,7 @@
             sc: {
                 title: "FX Spectrum 专业授权方案", subtitle: "选择最适合您的交易规模与平台的方案",
                 monthly: "月支付", semi: "半年支付", yearly: "年支付 (最划算)",
-                limitedTitle: "限时推广方案", limitedSub: "※ 仅限本月首 10 位推广名额, 数量有限",
+                limitedTitle: "限时推广方案", limitedSub: "※ 仅限本月首 10 位推广名額, 数量有限",
                 restrictedTitle: "绑定指定平台付费方案", restrictedSub: "适合单一券商交易者",
                 unrestrictedTitle: "不绑定指定平台方案", unrestrictedSub: "专业交易员首选",
                 fullyUnlocked: "完全解锁", cannotAdd: "不可加选", selectOneOfTwo: "2选1", canAdd: "可加选", trialPeriod: "使用期限 30 天",
@@ -349,7 +302,7 @@
         };
 
         const prices = { restricted: { monthly: 200, semi: 600, yearly: 1000 }, unrestricted: { monthly: 500, semi: 2700, yearly: 5000 } };
-        let currentLang = 'tc';
+        let currentLang = 'en'; // 設定初始語系為英文
         let currentCycle = 'yearly';
         let currentSocialType = 'Telegram';
 
@@ -357,8 +310,8 @@
             currentLang = l;
             ['tc', 'sc', 'en'].forEach(id => {
                 const btn = document.getElementById('lang-' + id);
-                if(id === l) { btn.classList.add('bg-slate-700', 'text-white', 'shadow-md'); btn.classList.remove('text-slate-500'); }
-                else { btn.classList.remove('bg-slate-700', 'text-white', 'shadow-md'); btn.classList.add('text-slate-500'); }
+                if(id === l) { btn.classList.add('bg-slate-700', 'text-white'); btn.classList.remove('text-slate-500'); }
+                else { btn.classList.remove('bg-slate-700', 'text-white'); btn.classList.add('text-slate-500'); }
             });
             render();
         }
@@ -375,7 +328,6 @@
         }
 
         function toggleSocialList() { document.getElementById('social-list').classList.toggle('show'); }
-        
         function selectSocial(type) {
             currentSocialType = type;
             const iconMap = { Facebook: 'fb', Instagram: 'ig', LINE: 'line', LinkedIn: 'li', Telegram: 'tg', WeChat: 'wc', WhatsApp: 'wa', X: 'x' };
@@ -393,13 +345,9 @@
             document.getElementById('lead-form').reset();
             selectSocial('Telegram'); 
             lucide.createIcons();
-            document.body.style.overflow = 'hidden';
         }
 
-        function closeModal() { 
-            document.getElementById('contact-modal').classList.add('modal-hidden'); 
-            document.body.style.overflow = '';
-        }
+        function closeModal() { document.getElementById('contact-modal').classList.add('modal-hidden'); }
 
         document.getElementById('lead-form').onsubmit = function(e) {
             e.preventDefault();
@@ -420,20 +368,17 @@
                 timestamp: new Date().toISOString()
             };
 
-            const formData = new FormData();
-            for (const key in data) { formData.append(key, data[key]); }
-
             fetch(scriptURL, { 
                 method: 'POST', 
                 mode: 'no-cors', 
-                body: formData 
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data) 
             }).then(() => {
                 document.getElementById('modal-form-view').classList.add('hidden');
                 document.getElementById('modal-success-view').classList.remove('hidden');
                 lucide.createIcons();
             }).catch(err => {
                 console.error("Submission error:", err);
-                alert("Submission failed. Please try again later.");
             }).finally(() => {
                 btnSubmit.disabled = false;
                 btnSubmit.innerText = translations[currentLang].btnSubmit;
@@ -462,11 +407,11 @@
                     document.getElementById('plan1-cycle').innerText = cycleText;
                     document.getElementById('btn1').innerText = t.btnClaim;
                     document.getElementById('list-limited').innerHTML = `
-                        <li class="flex items-center text-sm text-slate-300 font-medium"><i data-lucide="lock" class="text-yellow-500 mr-3 w-4 h-4"></i>${t.featureBroker}</li>
-                        <li class="flex items-start text-sm text-slate-400 font-medium"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>T Assistant</li>
-                        <li class="flex items-start text-sm text-slate-400 font-medium opacity-50"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Exit Plus (${t.cannotAdd})</li>
-                        <li class="flex items-start text-sm text-slate-400 font-medium opacity-50"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Risk Reward (${t.cannotAdd})</li>
-                        <li class="flex items-start text-sm text-slate-300 font-bold italic underline decoration-yellow-500/50 mt-2"><i data-lucide="calendar-days" class="text-yellow-500 mr-3 mt-1 w-4 h-4"></i>${t.trialPeriod}</li>
+                        <li class="flex items-center text-sm text-slate-300"><i data-lucide="lock" class="text-yellow-500 mr-3 w-4 h-4"></i>${t.featureBroker}</li>
+                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>T Assistant</li>
+                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Exit Plus (${t.cannotAdd})</li>
+                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Risk Reward (${t.cannotAdd})</li>
+                        <li class="flex items-start text-sm text-slate-300 font-bold italic underline decoration-yellow-500/50"><i data-lucide="calendar-days" class="text-yellow-500 mr-3 mt-1 w-4 h-4"></i>${t.trialPeriod}</li>
                     `;
                 } else {
                     p1c.classList.add('hidden'); p1c.classList.remove('flex'); p1u.classList.remove('hidden'); p1cont.classList.add('plan-disabled');
@@ -478,7 +423,6 @@
                 document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
                 document.getElementById('label-restricted').innerText = cycleText;
                 document.getElementById('btn2').innerText = t.btnSubscribe;
-                
                 document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
                 document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
                 document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
@@ -491,22 +435,25 @@
                 const tas = currentCycle === 'yearly' ? ` (${t.fullyUnlocked})` : '';
 
                 const listPaid = (r) => `
-                    <li class="flex items-center text-sm text-slate-200 font-medium"><i data-lucide="${r?'lock':'globe'}" class="text-${r?'blue':'purple'}-400 mr-3 w-4 h-4"></i>${r?t.featureBrokerRestricted:t.featureUnrestricted}</li>
-                    <li class="flex items-start text-sm text-slate-200 font-medium"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>T Assistant${tas}</li>
-                    <li class="flex items-start text-sm text-slate-200 font-medium ${pai==='x'?'opacity-50':''}"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Exit Plus${pal}</li>
-                    <li class="flex items-start text-sm text-slate-200 font-medium ${pai==='x'?'opacity-50':''}"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Risk Reward${pal}</li>
-                    <li class="flex items-center text-sm text-slate-200 font-medium"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureStrategy}</li>
-                    <li class="flex items-center text-sm text-slate-200 font-medium"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureSupport}</li>
+                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="${r?'lock':'globe'}" class="text-${r?'blue':'purple'}-400 mr-3 w-4 h-4"></i>${r?t.featureBrokerRestricted:t.featureUnrestricted}</li>
+                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>T Assistant${tas}</li>
+                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Exit Plus${pal}</li>
+                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Risk Reward${pal}</li>
+                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureStrategy}</li>
+                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureSupport}</li>
                 `;
                 document.getElementById('list-restricted').innerHTML = listPaid(true);
                 document.getElementById('list-unrestricted').innerHTML = listPaid(false);
 
                 document.getElementById('highlights').innerHTML = [
-                    { i: 'zap', c: 'yellow', t: t.h1, s: t.h1s }, { i: 'shield', c: 'blue', t: t.h2, s: t.h2s }, { i: 'trending-up', c: 'green', t: t.h3, s: t.h3s }, { i: 'dollar-sign', c: 'orange', t: t.h4, s: t.h4s }
-                ].map(h => `<div class="bg-slate-900/50 border border-slate-800 p-6 rounded-3xl text-center h-full flex flex-col justify-center transition-all highlight-card">
-                    <div class="flex justify-center mb-4"><i data-lucide="${h.i}" class="text-${h.c}-500 w-8 h-8"></i></div>
-                    <div class="text-base font-black tracking-tight mb-1">${h.t}</div>
-                    <div class="text-xs text-slate-500 font-medium leading-relaxed">${h.s}</div>
+                    { i: 'zap', c: 'yellow', t: currentLang === 'en' ? 'Speed' : '極速下單', s: currentLang === 'en' ? 'Zero Latency' : '毫秒級無延遲' },
+                    { i: 'shield', c: 'blue', t: currentLang === 'en' ? 'Secure' : '資金安全', s: currentLang === 'en' ? 'Stop Loss' : '嚴格執行保本' },
+                    { i: 'trending-up', c: 'green', t: currentLang === 'en' ? 'Profit' : '利潤最大', s: currentLang === 'en' ? 'Auto Trail' : '全自動移動止盈' },
+                    { i: 'dollar-sign', c: 'orange', t: currentLang === 'en' ? 'Precise' : '精算配置', s: currentLang === 'en' ? 'Risk Calc' : '自動計算風險' }
+                ].map(h => `<div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center h-full flex flex-col justify-center transition-all hover:bg-slate-900">
+                    <div class="flex justify-center mb-2"><i data-lucide="${h.i}" class="text-${h.c}-500"></i></div>
+                    <div class="text-sm font-bold">${h.t}</div>
+                    <div class="text-[10px] text-slate-500">${h.s}</div>
                 </div>`).join('');
                 document.getElementById('footer1').innerText = t.footer1;
                 document.getElementById('footer2').innerText = t.footer2;
@@ -529,11 +476,8 @@
         }
 
         document.addEventListener('DOMContentLoaded', render);
-        window.onclick = function(e) { 
-            if (!e.target.closest('#social-selector-btn') && !e.target.closest('#social-list')) {
-                document.getElementById('social-list').classList.remove('show'); 
-            }
-        }
+        window.onload = render;
+        window.onclick = function(e) { if (!e.target.closest('#social-selector-btn') && !e.target.closest('#social-list')) document.getElementById('social-list').classList.remove('show'); }
     </script>
 </body>
 </html>
