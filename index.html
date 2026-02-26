@@ -130,11 +130,11 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-lastname">Last Name</label>
-                            <input type="text" id="input-lastname" required placeholder="Ex: Wang" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
+                            <input type="text" id="input-lastname" required placeholder="Ex: Chen" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                         <div>
                             <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-firstname">First Name</label>
-                            <input type="text" id="input-firstname" required placeholder="Ex: Xiao Ming" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
+                            <input type="text" id="input-firstname" required placeholder="Ex: Henry" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
                         </div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -196,8 +196,8 @@
     </div>
 
     <script>
-        // --- 設定 Apps Script 網址 ---
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbx8nu7x2BcSwaxiYGwAIV4irsQzX1P6nOfaeAXU5CJriCjiYTkf-eHLnBDMM85tredt0A/exec';
+        // --- 核心修正：使用最新的 Google Apps Script 執行網址 ---
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzuB65CD8rzc_YrediUF6FQ3M1DqoPyAv4cBwH9uu_nWfcV-tDT61G94AYbY51qA1dO3A/exec';
 
         const icons = {
             fb: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
@@ -318,7 +318,7 @@
 
         function closeModal() { document.getElementById('contact-modal').classList.add('modal-hidden'); }
 
-        // --- 核心修正：Fetch 傳送邏輯 ---
+        // --- 核心送出邏輯 ---
         document.getElementById('lead-form').onsubmit = function(e) {
             e.preventDefault();
             const btnSubmit = document.getElementById('btn-submit');
@@ -338,22 +338,19 @@
                 message: document.getElementById('input-msg').value
             };
 
-            console.log("Submitting Data:", data); // Debug 用
-
-            // 使用 text/plain 以避開 CORS 限制
+            // 使用最新的網址進行 Fetch
             fetch(scriptURL, { 
                 method: 'POST', 
                 mode: 'no-cors', 
                 headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                 body: JSON.stringify(data) 
             }).then(() => {
-                // no-cors 下無法取得回傳，直接當作成功
                 document.getElementById('modal-form-view').classList.add('hidden');
                 document.getElementById('modal-success-view').classList.remove('hidden');
                 lucide.createIcons();
             }).catch(err => {
                 console.error("Submission error:", err);
-                alert("Submission failed. Please try again or contact us directly.");
+                alert("Submission failed. Please try again.");
             }).finally(() => {
                 btnSubmit.disabled = false;
                 btnSubmit.innerText = originalText;
