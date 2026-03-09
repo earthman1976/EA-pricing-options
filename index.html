@@ -3,453 +3,791 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FX Spectrum Professional Licensing</title>
+    <title>FX Spectrum | Global Market Analysis & Intelligent Trading Expert</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        .gradient-text {
-            background: linear-gradient(to right, #facc15, #fb923c, #facc15);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        :root {
+            --primary-cyan: #06B6D4;
+            --primary-purple: #A855F7;
+            --midnight-blue: #1E293B;
+            --off-white: #F8FAFC;
+            --color-tg: #26A5E4;
+            --color-yt: #FF0000;
+            --color-fb: #1877F2;
+            --color-x: #000000;
+            --color-ig: #E4405F;
+            --color-wechat: #07C160;
+            --color-whatsapp: #25D366;
+            --color-linkedin: #0A66C2;
         }
-        .brand-gradient {
-            background: linear-gradient(to right, #22d3ee, #a855f7, #ec4899);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--off-white);
+            color: var(--midnight-blue);
+            overflow-x: hidden;
         }
-        button, a { cursor: pointer; }
-        .plan-disabled { opacity: 0.5; filter: grayscale(0.5); pointer-events: none; }
-        .modal-overlay { transition: opacity 0.3s ease; }
-        .modal-content { transition: transform 0.3s ease, opacity 0.3s ease; }
-        .modal-hidden { opacity: 0; pointer-events: none; }
-        .modal-hidden .modal-content { transform: scale(0.95); }
-        .modal-content::-webkit-scrollbar { width: 6px; }
-        .modal-content::-webkit-scrollbar-track { background: transparent; }
-        .modal-content::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
-        .custom-select-list {
-            display: none; position: absolute; top: 100%; left: 0; right: 0; z-index: 60;
-            margin-top: 0.5rem; background: #1e293b; border: 1px solid #475569;
-            border-radius: 1rem; overflow: hidden; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        .custom-select-list.show { display: block; }
+
+        @keyframes ticker-reverse {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+        }
+
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: #0f172a;
+            backdrop-filter: blur(10px);
+            border-bottom: none;
+            white-space: nowrap;
+        }
+
+        .ticker {
+            display: inline-block;
+            animation: ticker 40s linear infinite;
+        }
+
+        .ticker-reverse {
+            display: inline-block;
+            animation: ticker-reverse 40s linear infinite;
+        }
+
+        .ticker-item {
+            display: inline-block;
+            padding: 0 2rem;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .glass-card {
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 32px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2.5rem;
+            min-height: 280px;
+            width: 100%;
+        }
+
+        .action-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            filter: brightness(1.03);
+        }
+
+        .card-cyan { background: linear-gradient(135deg, #CFFAFE 0%, #A5F3FC 100%); border: 2px solid rgba(6, 182, 212, 0.4); }
+        .card-terminal { background: #0f172a; border: none; font-family: 'JetBrains Mono', monospace; }
+        .card-terminal .order-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 12px; border-radius: 10px; background: rgba(255,255,255,0.04); margin-bottom: 6px; opacity: 0; transform: translateY(8px); animation: orderIn 0.5s ease forwards; font-family: 'JetBrains Mono', monospace; }
+        @keyframes orderIn { to { opacity: 1; transform: translateY(0); } }
+        .card-terminal .order-row.fade-out { animation: orderOut 0.4s ease forwards; }
+        @keyframes orderOut { to { opacity: 0; transform: translateY(-8px); } }
+        .roi-flash { animation: roiFlash 0.6s ease; }
+        @keyframes roiFlash { 0%,100% { color: rgb(34 211 238); } 50% { color: rgb(103 232 249); text-shadow: 0 0 12px rgba(34,211,238,0.8); } }
+        .card-purple { background: linear-gradient(135deg, #F3E8FF 0%, #E9D5FF 100%); border: 2px solid rgba(168, 85, 247, 0.4); }
+        .card-emerald { background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%); border: 2px solid rgba(16, 185, 129, 0.4); }
+        .card-indigo { background: linear-gradient(135deg, #E0E7FF 0%, #C7D2FE 100%); border: 2px solid rgba(79, 70, 229, 0.4); }
+
+        .nav-home-icon svg {
+            width: 1.25rem;
+            height: 1.25rem;
+            stroke: url(#home-gradient);
+        }
+
+        .mobile-menu-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); backdrop-filter: blur(4px); z-index: 90; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; }
+        .mobile-menu-overlay.active { opacity: 1; pointer-events: auto; }
+        .mobile-menu { position: fixed; top: 0; right: -100%; width: 280px; height: 100%; background: #fff; z-index: 100; transition: right 0.3s ease; box-shadow: -10px 0 30px rgba(0,0,0,0.1); overflow-y: auto; }
+        .mobile-menu.active { right: 0; }
+        .mobile-menu a { display: block; padding: 1rem 1.5rem; font-size: 0.95rem; font-weight: 600; color: #334155; border-bottom: 1px solid #f1f5f9; transition: all 0.2s; }
+        .mobile-menu a:hover, .mobile-menu a.active-link { color: #06B6D4; background: #f0fdfa; }
+        .hamburger-btn { display: none; }
+        @media (max-width: 767px) { .hamburger-btn { display: flex; } }
+
+        .nav-item-link::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-cyan), var(--primary-purple));
+            border-radius: 2px;
+        }
+
+        .lang-btn.active { color: var(--primary-cyan); font-weight: 700; }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: 650px;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+            background: #000;
+        }
+        .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
+        .slide {
+            width: 100%;
+            min-width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: center;
+            background: #000;
+        }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); width: 50px; height: 50px; background: rgba(255, 255, 255, 0.2); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 20; transition: all 0.3s ease; color: white; }
+        .btn-prev { left: 0; }
+        .btn-next { right: 0; }
+        .slider-dots { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); display: flex; gap: 12px; z-index: 20; }
+        .dot { width: 12px; height: 3px; background: rgba(255, 255, 255, 0.4); cursor: pointer; transition: all 0.3s ease; }
+        .dot.active { width: 32px; background: white; }
+
+        .social-icon {
+            width: 3.2rem;
+            height: 3.2rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #ffffff;
+            border: 2px solid #ffffff;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.2), inset 0 0 0 1px rgba(0, 0, 0, 0.05);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+        
+        .social-icon:hover {
+            transform: scale(1.15) translateY(-8px);
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.25);
+            background: #ffffff;
+        }
+
+        .logo-container img { max-height: 100%; width: auto; display: block; }
+
+        .fade-in-out {
+            animation: fadeInOut 0.5s ease forwards;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateY(5px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .brand-trust-section {
+            position: relative;
+            background: #050b15;
+            overflow: hidden;
+        }
+        .brand-trust-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+            background-size: 48px 48px;
+            pointer-events: none;
+        }
+        .brand-trust-section::after {
+            content: "";
+            position: absolute;
+            width: 620px;
+            height: 620px;
+            right: -220px;
+            top: -240px;
+            border-radius: 50%;
+            border: 1px solid rgba(6,182,212,0.18);
+            box-shadow: 0 0 0 70px rgba(168,85,247,0.05);
+            pointer-events: none;
+        }
+        .brand-reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.9s ease, transform 0.9s ease;
+        }
+        .brand-reveal.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .brand-cta-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            background: #ffffff;
+            color: #0f172a;
+            font-weight: 800;
+            padding: 14px 24px;
+            border-radius: 9999px;
+            transition: all 0.28s ease;
+        }
+        .brand-cta-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(255,255,255,0.18);
+        }
     </style>
 </head>
-<body class="bg-slate-950 text-white min-h-screen p-4 md:p-8">
+<body class="min-h-screen flex flex-col">
 
-    <div class="max-w-7xl mx-auto" id="app">
-        <div class="flex justify-end mb-4">
-            <div class="flex items-center bg-slate-900 p-1 px-3 rounded-xl border border-slate-800">
-                <i data-lucide="globe" class="w-4 h-4 mr-2 text-slate-400"></i>
-                <div class="flex gap-1">
-                    <button onclick="setLang('en')" id="lang-en" class="px-3 py-1 rounded-lg text-xs font-bold transition-all bg-slate-700 text-white">EN</button>
-                    <button onclick="setLang('tc')" id="lang-tc" class="px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-300">繁</button>
-                    <button onclick="setLang('sc')" id="lang-sc" class="px-3 py-1 rounded-lg text-xs font-bold transition-all text-slate-500 hover:text-slate-300">简</button>
+    <!-- 頂部即時數據跑馬燈 -->
+    <div class="ticker-wrap fixed top-0 z-50 py-2">
+        <div id="top-ticker" class="ticker"></div>
+    </div>
+
+    <!-- 導覽列 -->
+    <nav class="mt-10 px-8 py-6 flex justify-between items-center max-w-7xl mx-auto w-full z-40">
+        <div class="flex items-center space-x-2">
+            <a href="index.html" class="logo-container">
+                <img src="img/logo.jpg" alt="FX Spectrum Logo" class="h-10 w-auto" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+                <div class="text-2xl font-bold tracking-tighter text-slate-800 hidden"><span class="text-cyan-500">FX</span> SPECTRUM</div>
+            </a>
+        </div>
+        
+        <div class="hidden md:flex items-center space-x-8 text-sm font-medium text-slate-500 uppercase tracking-widest">
+            <a href="index.html" class="nav-home-icon relative pb-1 transition-all hover:scale-110" title="Home">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+                    <defs><linearGradient id="home-gradient" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#06B6D4"/><stop offset="100%" stop-color="#A855F7"/></linearGradient></defs>
+                    <path stroke="url(#home-gradient)" d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline stroke="url(#home-gradient)" points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+            </a>
+            <a href="insights.html" data-i18n="nav_insights" class="nav-item-link relative pb-1 hover:text-cyan-500 transition-colors">Insights</a>
+            <a href="academy.html" data-i18n="nav_academy" class="nav-item-link relative pb-1 hover:text-cyan-500 transition-colors">Academy</a>
+            <a href="partners.html" data-i18n="nav_affiliate" class="nav-item-link relative pb-1 hover:text-cyan-500 transition-colors">Partners</a>
+            <a href="pricing.html" data-i18n="nav_pricing" class="nav-item-link relative pb-1 hover:text-cyan-500 transition-colors">Pricing</a>
+            <a href="about.html" data-i18n="nav_about" class="nav-item-link relative pb-1 hover:text-cyan-500 transition-colors">About Us</a>
+
+            <div class="flex items-center space-x-3 border-l pl-8 border-slate-200 text-[10px] font-bold">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path>
+                </svg>
+                <div class="flex items-center space-x-3">
+                    <button onclick="changeLanguage('en')" id="lang-en" class="lang-btn hover:text-cyan-500 transition-colors">EN</button>
+                    <span class="text-slate-200">|</span>
+                    <button onclick="changeLanguage('zh-TW')" id="lang-zh-TW" class="lang-zh-btn lang-btn hover:text-cyan-500 transition-colors">繁</button>
+                    <span class="text-slate-200">|</span>
+                    <button onclick="changeLanguage('zh-CN')" id="lang-zh-CN" class="lang-zh-btn lang-btn hover:text-cyan-500 transition-colors">簡</button>
                 </div>
             </div>
         </div>
-
-        <div class="text-center mb-10">
-            <h1 class="text-3xl md:text-5xl font-bold gradient-text mb-4" id="main-title">FX Spectrum Professional Licensing</h1>
-            <p class="text-slate-400 text-lg mb-8" id="main-subtitle">Choose the plan that best fits your trading scale and platform</p>
-            <div class="inline-flex bg-slate-900 p-1 rounded-2xl border border-slate-800">
-                <button onclick="setCycle('monthly')" id="btn-monthly" class="px-6 py-2 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-300">Monthly</button>
-                <button onclick="setCycle('semi-annual')" id="btn-semi" class="px-6 py-2 rounded-xl text-sm font-bold transition-all text-slate-500 hover:text-slate-300">Semi-Annual</button>
-                <button onclick="setCycle('yearly')" id="btn-yearly" class="px-6 py-2 rounded-xl text-sm font-bold transition-all bg-slate-700 text-white shadow-lg">Yearly (Best Value)</button>
-            </div>
+        <div class="flex items-center gap-3">
+            <button onclick="openSignUpModal()" data-i18n="nav_signup" class="px-6 py-2 border border-slate-200 rounded-full text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all hidden md:block">Sign Up</button>
+            <a href="admin-dashboard.html" class="px-6 py-2 rounded-full text-sm font-semibold text-cyan-300 bg-slate-900 hover:bg-slate-800 transition-all hidden md:inline-flex items-center justify-center">員工專區</a>
+            <button onclick="toggleMobileMenu()" class="hamburger-btn items-center justify-center w-10 h-10 rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all">
+                <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
+    </nav>
 
-        <div class="grid lg:grid-cols-3 gap-6 items-stretch">
-            <div id="plan1-container" class="relative bg-slate-900 border border-yellow-500/30 rounded-3xl p-8 flex flex-col transition-all hover:border-yellow-500 shadow-xl shadow-yellow-500/5 h-full">
-                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-yellow-500 text-slate-950 px-4 py-1 rounded-full font-black text-xs uppercase tracking-widest">Limited Time</div>
-                <div id="plan1-content" class="flex flex-col flex-grow text-white">
-                    <div class="mb-6">
-                        <h3 class="text-xl font-bold text-yellow-500 mb-2" id="plan1-title">Limited Promotion</h3>
-                        <div class="flex items-baseline text-white">
-                            <span class="text-4xl font-black">$0</span>
-                            <span class="ml-2 text-slate-500 text-sm" id="plan1-cycle">/ yr</span>
-                        </div>
-                        <p class="text-xs text-yellow-500/70 mt-2 font-medium" id="plan1-sub">※ Limited slots available, act fast</p>
-                    </div>
-                    <ul class="space-y-4 mb-8 flex-grow" id="list-limited"></ul>
-                    <button onclick="openModal('Limited Trial')" id="btn1" class="w-full py-4 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-black rounded-2xl transition-all shadow-lg shadow-yellow-500/10 block text-center uppercase font-bold text-sm tracking-wide">Claim Now</button>
-                </div>
-                <div id="plan1-unavailable" class="hidden flex-grow flex items-center justify-center text-center py-10">
-                    <p class="text-slate-500 italic text-sm" id="plan1-unavailable-msg"></p>
-                </div>
-            </div>
-
-            <div class="relative bg-slate-900 border border-blue-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-blue-500/5 group h-full text-white">
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold text-blue-400 mb-2" id="plan2-title">Platform-Restricted Plan</h3>
-                    <div class="flex items-baseline">
-                        <span class="text-4xl font-black" id="price-restricted">$1,000</span>
-                        <span class="ml-2 text-slate-500 text-sm" id="label-restricted">/ yr</span>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-2" id="plan2-sub">Ideal for single broker traders</p>
-                </div>
-                <ul class="space-y-4 mb-8 flex-grow" id="list-restricted"></ul>
-                <button onclick="openModal('Restricted Plan')" id="btn2" class="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-blue-500/20 block text-center uppercase font-bold text-sm tracking-wide">Subscribe Now</button>
-            </div>
-
-            <div class="relative bg-gradient-to-b from-slate-800 to-slate-900 border border-purple-500/50 rounded-3xl p-8 flex flex-col transition-all shadow-xl shadow-purple-500/10 h-full text-white">
-                <div class="mb-6">
-                    <h3 class="text-xl font-bold text-purple-400 mb-2" id="plan3-title">Unrestricted Platform Plan</h3>
-                    <div class="flex items-baseline">
-                        <span class="text-4xl font-black" id="price-unrestricted">$5,000</span>
-                        <span class="ml-2 text-slate-500 text-sm" id="label-unrestricted">/ yr</span>
-                    </div>
-                    <p class="text-xs text-slate-500 mt-2 text-purple-300/70" id="plan3-sub">First choice for professional traders</p>
-                </div>
-                <ul class="space-y-4 mb-8 flex-grow" id="list-unrestricted"></ul>
-                <button onclick="openModal('Unrestricted Plan')" id="btn3" class="w-full py-4 bg-purple-600 hover:bg-purple-500 text-white font-black rounded-2xl transition-all shadow-lg shadow-purple-500/40 block text-center uppercase font-bold text-sm tracking-wide">Contact for Auth</button>
-            </div>
+    <div id="mobile-menu-overlay" class="mobile-menu-overlay" onclick="toggleMobileMenu()"></div>
+    <div id="mobile-menu" class="mobile-menu">
+        <div class="flex items-center justify-between p-4 border-b border-slate-100">
+            <a href="index.html" class="logo-container"><img src="img/logo.jpg" alt="FX Spectrum" class="h-8 w-auto" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-lg font-bold tracking-tighter text-slate-800\'><span class=\'text-cyan-500\'>FX</span> SPECTRUM</div>';"></a>
+            <button onclick="toggleMobileMenu()" class="w-8 h-8 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-500"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg></button>
         </div>
-
-        <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4" id="highlights"></div>
-        <div class="mt-12 text-center space-y-2">
-            <p class="text-slate-500 text-xs italic" id="footer1"></p>
-            <p class="text-slate-500 text-xs italic" id="footer2"></p>
+        <nav class="py-2">
+            <a href="index.html" data-i18n="mobile_home">Home</a>
+            <a href="insights.html" data-i18n="nav_insights">Insights</a>
+            <a href="academy.html" data-i18n="nav_academy">Academy</a>
+            <a href="partners.html" data-i18n="nav_affiliate">Partners</a>
+            <a href="pricing.html" data-i18n="nav_pricing">Pricing</a>
+            <a href="about.html" data-i18n="nav_about">About Us</a>
+        </nav>
+        <div class="px-4 py-4 border-t border-slate-100">
+            <div class="flex items-center justify-center gap-3 mb-4">
+                <svg class="w-3.5 h-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
+                <button onclick="changeLanguage('en');toggleMobileMenu();" class="lang-btn text-xs font-bold hover:text-cyan-500">EN</button>
+                <span class="text-slate-300">|</span>
+                <button onclick="changeLanguage('zh-TW');toggleMobileMenu();" class="lang-btn text-xs font-bold hover:text-cyan-500">繁</button>
+                <span class="text-slate-300">|</span>
+                <button onclick="changeLanguage('zh-CN');toggleMobileMenu();" class="lang-btn text-xs font-bold hover:text-cyan-500">簡</button>
+            </div>
+            <a href="#" onclick="openSignUpFromMobile(); return false;" data-i18n="nav_signup" class="block w-full py-3 text-center border border-slate-200 rounded-full text-sm font-semibold text-slate-700 hover:bg-slate-50 transition-all">Sign Up</a>
+            <a href="admin-dashboard.html" class="block w-full mt-3 py-3 text-center rounded-full text-sm font-semibold text-cyan-300 bg-slate-900 hover:bg-slate-800 transition-all">員工專區</a>
         </div>
     </div>
 
-    <div id="contact-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 modal-overlay modal-hidden bg-black/80 backdrop-blur-sm">
-        <div class="relative w-full max-w-lg bg-slate-900 border border-slate-700 rounded-3xl shadow-2xl modal-content p-8 overflow-y-auto max-h-[95vh]">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400 hover:text-white transition-colors"><i data-lucide="x" class="w-6 h-6"></i></button>
-            <div id="modal-form-view">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="p-3 bg-yellow-500/20 rounded-2xl"><i data-lucide="message-square" class="text-yellow-500 w-6 h-6"></i></div>
-                    <div>
-                        <h2 class="text-2xl font-bold text-white" id="modal-title">Contact Information</h2>
-                        <p class="text-slate-400 text-sm" id="modal-subtitle">Manager will reach out to you shortly</p>
+    <!-- 主要內容區 -->
+    <main class="flex-grow relative px-8 max-w-7xl mx-auto w-full pt-12 pb-24">
+        <!-- Hero Header: full width -->
+        <div class="w-full mb-12 z-10 relative text-center">
+            <div data-i18n="hero_badge" class="inline-block px-8 py-3 mb-6 rounded-full bg-cyan-50 text-cyan-600 text-sm font-bold tracking-widest uppercase">2026 Intelligent Trading Dimension</div>
+            <h1 class="text-4xl md:text-5xl lg:text-[4.2rem] font-bold leading-[1.1] mb-8 text-slate-900 tracking-tighter text-center">
+                <span data-i18n="hero_title_1">Redefining Trading</span> <span data-i18n="hero_title_2" class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-500 to-purple-500">Advanced EA</span>
+            </h1>
+            <p data-i18n="hero_desc" class="text-base md:text-lg text-slate-500 leading-relaxed max-w-3xl mx-auto">Your comprehensive professional portal: Combining AI-driven market insights, top-tier EA automation tools, and in-depth education.</p>
+        </div>
+        <!-- Cards + Slide: side by side -->
+        <div class="flex flex-col lg:flex-row items-start gap-20">
+            <div class="w-full lg:w-7/12 z-10">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="glass-card card-terminal" style="align-items:stretch;text-align:left;padding:1.5rem 1.8rem;">
+                        <div class="flex items-center justify-between mb-3">
+                            <span data-i18n="card_copy_title" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Live Copy Trading</span>
+                            <span class="flex items-center gap-1.5 text-[10px] text-emerald-400 font-bold"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>LIVE</span>
+                        </div>
+                        <div id="live-roi-wrap" class="mb-1"><span id="live-roi-value" class="text-3xl font-black text-cyan-400 tracking-tight">+87.70%</span></div>
+                        <div data-i18n="card_copy_roi" class="text-[10px] text-slate-500 font-semibold uppercase tracking-wider mb-4">Est. Yearly ROI</div>
+                        <div id="live-order-list" class="flex-grow flex flex-col justify-end"></div>
+                    </div>
+                    <a href="https://t.me/+YC-M-MmxsXJjNDll" target="_blank" class="action-card glass-card card-purple group cursor-pointer">
+                        <div class="w-20 h-20 rounded-2xl bg-white shadow-sm text-purple-500 flex items-center justify-center mb-6 group-hover:bg-purple-500 group-hover:text-white transition-all"><svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5z"></path><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path></svg></div>
+                        <span data-i18n="btn_academy" class="text-xl font-bold text-slate-800">Join Our Official Chatroom</span>
+                        <p data-i18n="academy_card_desc" class="text-[10px] text-slate-600 font-semibold mt-2 uppercase tracking-[0.2em]">Master the Market</p>
+                    </a>
+                    <div class="glass-card card-emerald">
+                        <span data-i18n="card_perf_title" class="text-[10px] font-bold text-slate-600 uppercase tracking-widest mb-6">Live Performance</span>
+                        <div class="h-16 w-36 flex items-end justify-center space-x-1.5 mb-8">
+                            <div class="w-full bg-emerald-500/30 rounded-t-sm h-1/2"></div>
+                            <div class="w-full bg-emerald-500/50 rounded-t-sm h-2/3"></div>
+                            <div class="w-full bg-emerald-500/70 rounded-t-sm h-1/2"></div>
+                            <div class="w-full bg-emerald-500 rounded-t-sm h-full"></div>
+                        </div>
+                        <div id="live-client-profit" class="mt-2 text-[10px] sm:text-[11px] font-bold text-emerald-800/80 bg-white/40 px-4 py-3 rounded-2xl border border-emerald-200 min-w-[200px] flex flex-col items-center justify-center leading-relaxed"></div>
+                    </div>
+                    <div class="glass-card card-terminal relative overflow-hidden">
+                        <span id="sentiment-category" class="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-4">Market Insight</span>
+                        <div id="sentiment-product" class="text-xs font-bold text-cyan-300 mb-2">Analyzing...</div>
+                        <div id="sentiment-value" class="text-2xl font-bold text-white flex flex-col items-center min-h-[80px]"></div>
+                        <div class="mt-6 flex items-center justify-center space-x-2 text-[10px] text-cyan-200 font-bold bg-white/10 px-4 py-1.5 rounded-full border border-cyan-300/30">
+                            <div id="sentiment-dot" class="w-2 h-2 rounded-full bg-cyan-400 animate-pulse"></div>
+                            <span id="sentiment-status-text" data-i18n="status_syncing">Scanning Market...</span>
+                        </div>
                     </div>
                 </div>
-                <form id="lead-form" class="space-y-4">
-                    <input type="hidden" id="input-plan" name="plan">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-lastname">Last Name</label>
-                            <input type="text" id="input-lastname" required placeholder="Ex: Chen" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-firstname">First Name</label>
-                            <input type="text" id="input-firstname" required placeholder="Ex: Henry" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
-                        </div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-email">Email</label>
-                            <input type="email" id="input-email" required placeholder="example@mail.com" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-phone">Phone</label>
-                            <input type="tel" id="input-phone" required placeholder="Ex: +886 912..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
-                        </div>
-                    </div>
-                    <div class="relative">
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-social">Social Media ID</label>
-                        <div class="flex gap-2">
-                            <div class="relative min-w-[140px]">
-                                <button type="button" onclick="toggleSocialList()" id="social-selector-btn" class="w-full flex items-center justify-between bg-slate-800 border border-slate-700 rounded-xl px-3 py-3 text-white text-sm focus:outline-none focus:border-yellow-500">
-                                    <div class="flex items-center gap-2" id="selected-social-view">
-                                        <span id="selected-icon"></span><span id="selected-label">Telegram</span>
-                                    </div>
-                                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-500"></i>
-                                </button>
-                                <div id="social-list" class="custom-select-list">
-                                    <button type="button" onclick="selectSocial('Facebook')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-fb"></span> Facebook</button>
-                                    <button type="button" onclick="selectSocial('Instagram')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-ig"></span> Instagram</button>
-                                    <button type="button" onclick="selectSocial('LINE')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-line"></span> LINE</button>
-                                    <button type="button" onclick="selectSocial('LinkedIn')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-li"></span> LinkedIn</button>
-                                    <button type="button" onclick="selectSocial('Telegram')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-tg"></span> Telegram</button>
-                                    <button type="button" onclick="selectSocial('WeChat')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-wc"></span> WeChat</button>
-                                    <button type="button" onclick="selectSocial('WhatsApp')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm border-b border-slate-700/50"><span class="social-icon-wa"></span> WhatsApp</button>
-                                    <button type="button" onclick="selectSocial('X')" class="w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-700 text-white text-sm"><span class="social-icon-x"></span> X (Twitter)</button>
-                                </div>
-                            </div>
-                            <input type="text" id="input-social-id" required placeholder="ID / Username" class="flex-grow bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors text-sm">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2" id="label-message">Message</label>
-                        <textarea id="input-msg" rows="2" placeholder="..." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-yellow-500 transition-colors resize-none text-sm"></textarea>
-                    </div>
-                    <button type="submit" class="w-full py-4 bg-gradient-to-r from-yellow-500 to-orange-500 text-slate-950 font-black rounded-2xl transition-all shadow-lg hover:brightness-110 mt-2" id="btn-submit">Submit</button>
-                </form>
             </div>
-            <div id="modal-success-view" class="hidden text-center py-6">
-                <div class="flex justify-center mb-8">
-                    <div class="text-center font-black italic tracking-tighter">
-                        <span class="text-4xl md:text-5xl brand-gradient leading-none block">FX SPECTRUM</span>
-                        <div class="text-[9px] tracking-[0.35em] text-slate-500 mt-1 uppercase font-bold opacity-80">Global Market Analysis</div>
+            <div class="w-full lg:w-5/12 z-0">
+                <div class="slider-container">
+                    <div class="slider-wrapper" id="slider-wrapper">
+                       <img id="managed-slide-1" src="img/promote.jpg" class="slide" alt="Market Analysis">
+                       <img id="managed-slide-2" src="img/man1.jpg" class="slide" alt="AI Trading">
+                       <img id="managed-slide-3" src="img/man2.jpg" class="slide" alt="Financial Education">
                     </div>
+                    <div class="slider-btn btn-prev" onclick="moveSlide(-1)"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></div>
+                    <div class="slider-btn btn-next" onclick="moveSlide(1)"><svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></div>
+                    <div class="slider-dots" id="slider-dots"></div>
                 </div>
-                <div class="flex justify-center mb-6">
-                    <div class="p-4 bg-green-500/20 rounded-full animate-pulse"><i data-lucide="check-circle-2" class="text-green-500 w-12 h-12"></i></div>
-                </div>
-                <h2 class="text-3xl font-bold text-white mb-4" id="success-title">Success!</h2>
-                <p class="text-slate-400 mb-8 max-w-xs mx-auto" id="success-msg">Thank you for your interest. We will reach out to you shortly.</p>
-                <button onclick="closeModal()" class="px-10 py-3 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl transition-all border border-slate-600" id="btn-close">Close</button>
             </div>
         </div>
+    </main>
+
+    <section class="brand-trust-section py-24">
+        <div class="relative z-10 px-8 max-w-7xl mx-auto w-full">
+            <div class="max-w-5xl mb-16">
+                <h2 data-i18n="brand_sec_title" class="text-4xl md:text-5xl font-black tracking-tight leading-tight text-transparent bg-clip-text bg-gradient-to-r from-cyan-300 via-white to-purple-300 mb-6">
+                    為何IB和trader都選擇FX Spectrum?
+                </h2>
+                <p data-i18n="brand_sec_desc" class="text-slate-300 text-base md:text-lg leading-relaxed max-w-4xl">
+                    我們匯集全球數千名交易者的實戰回饋，將資深盤感轉化為精密的自動化邏輯，打造出深度優化的全自動加平倉系統，徹底排除無謂操作，直擊市場獲利核心。
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                <article class="brand-reveal rounded-3xl border border-white/10 bg-white/[0.03] p-8">
+                    <div class="text-cyan-400 text-xl font-black mb-5">01/</div>
+                    <h3 data-i18n="brand_feat1_title" class="text-white text-xl font-extrabold mb-4">拒絕「黑盒子」交易</h3>
+                    <p data-i18n="brand_feat1_desc" class="text-slate-300 leading-relaxed text-sm md:text-base">每一項策略參數皆可追溯並經過學術驗證，從進出場邏輯到部位管理都提供可解釋框架，避免盲目追隨訊號。</p>
+                </article>
+
+                <article class="brand-reveal rounded-3xl border border-white/10 bg-white/[0.03] p-8">
+                    <div class="text-cyan-400 text-xl font-black mb-5">02/</div>
+                    <h3 data-i18n="brand_feat2_title" class="text-white text-xl font-extrabold mb-4">全球多空環境自適應</h3>
+                    <p data-i18n="brand_feat2_desc" class="text-slate-300 leading-relaxed text-sm md:text-base">結合跨市場數據同步與波動 regime 判讀，策略可依多空切換即時調整，降低單一市場風格失效的風險。</p>
+                </article>
+
+                <article class="brand-reveal rounded-3xl border border-white/10 bg-white/[0.03] p-8">
+                    <div class="text-cyan-400 text-xl font-black mb-5">03/</div>
+                    <h3 data-i18n="brand_feat3_title" class="text-white text-xl font-extrabold mb-4">機構級風控標準</h3>
+                    <p data-i18n="brand_feat3_desc" class="text-slate-300 leading-relaxed text-sm md:text-base">以回撤、波動、夏普比率為核心監控指標，建立分層止損與資金配置機制，讓績效與生存能力同時被量化。</p>
+                </article>
+            </div>
+
+            <div class="rounded-3xl border border-white/10 bg-white/[0.04] p-7 md:p-10 flex flex-col md:flex-row md:items-center md:justify-between gap-6">
+                <p data-i18n="brand_quote" class="text-slate-200 italic text-base md:text-lg leading-relaxed">
+                    「交易不只是關注短期獲利，更是能有效長期輸出。」 — FX Spectrum Infotech
+                </p>
+                <a href="about.html" data-i18n="brand_cta" class="brand-cta-btn whitespace-nowrap">閱讀我們的技術白皮書</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- 頁尾 -->
+    <footer class="mt-20 py-16 px-8 border-t border-slate-100 bg-white/40 backdrop-blur-lg pb-24 text-left">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-6 gap-8">
+            <div class="col-span-1 md:col-span-3">
+                <div class="mb-8">
+                    <a href="index.html" class="logo-container inline-block">
+                        <img src="img/logo.jpg" alt="FX Spectrum Logo" class="h-10 w-auto" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=\'text-2xl font-bold tracking-tighter text-slate-800\'><span class=\'text-cyan-500\'>FX</span> SPECTRUM</div>';">
+                    </a>
+                </div>
+                <p data-i18n="footer_desc" class="text-slate-500 text-sm leading-relaxed max-w-sm mb-12">Professional forex tools and educational platform dedicated to empowering traders with advanced AI analytics and reliable Expert Advisors.</p>
+                
+                <div class="flex flex-col items-start space-y-10">
+                    <div class="flex flex-row flex-wrap gap-4 items-center">
+                        <a href="https://t.me/+T1s2b4A7O6g3OTBl" target="_blank" class="social-icon" style="color: var(--color-tg);" title="Telegram"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.665 3.717l-17.73 6.837c-1.21.486-1.203 1.161-.222 1.462l4.552 1.42 10.532-6.645c.498-.303.953-.14.579.192l-8.533 7.701-.33 4.955c.488 0 .705-.223.977-.488l2.345-2.279 4.877 3.6c.898.495 1.543.24 1.767-.83l3.195-15.04c.328-1.312-.503-1.91-1.36-.516z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-yt);" title="YouTube"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-fb);" title="Facebook"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-x);" title="Twitter / X"><svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-ig);" title="Instagram"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-wechat);" title="WeChat"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M15.847 3c-4.966 0-9 3.284-9 7.333 0 2.148 1.134 4.077 2.946 5.438l-.754 2.261 2.661-1.33c.961.272 1.989.414 3.064.414 4.965 0 8.999-3.283 8.999-7.332C23.763 5.73 19.728 3 14.763 3zm-4.5 5.5c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1zm6.5 0c-.552 0-1-.448-1-1s.448-1 1-1 1 .448 1 1-.448 1-1 1zM7.5 11.5C3.358 11.5 0 14.239 0 17.611c0 1.79 1.011 3.398 2.627 4.532l-.671 2.011 2.373-1.186c.857.227 1.773.344 2.729.344.484 0 .954-.03 1.408-.088-.135-.515-.205-1.047-.205-1.59 0-3.328 3.21-6.034 7.229-6.034.184 0 .367.007.548.019-.387-2.333-3.242-4.108-6.538-4.108zm-3.5 4.5c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75zm4.5 0c-.414 0-.75-.336-.75-.75s.336-.75.75-.75.75.336.75.75-.336.75-.75.75z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-whatsapp);" title="WhatsApp"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.414 0 .018 5.394 0 12.03c0 2.12.553 4.189 1.601 6.006L0 24l6.117-1.605A11.803 11.803 0 0 0 12.05 24c6.638 0 12.032-5.395 12.035-12.032a11.761 11.761 0 0 0-3.528-8.498z"/></svg></a>
+                        <a href="#" target="_blank" class="social-icon" style="color: var(--color-linkedin);" title="LinkedIn"><svg class="w-7 h-7" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.37 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+                    </div>
+                    <div data-i18n="footer_follow_us" class="text-4xl font-black tracking-[0.55em] uppercase text-slate-800 mt-4 select-none whitespace-nowrap">Follow Us</div>
+                </div>
+            </div>
+            
+            <div class="hidden md:block"></div>
+
+            <div class="md:pt-32 md:col-start-5">
+                <h4 data-i18n="footer_links_title" class="font-bold text-slate-800 mb-8 uppercase tracking-widest text-sm">Quick Links</h4>
+                <ul class="space-y-6 text-sm text-slate-500 font-medium">
+                    <li><a href="insights.html" data-i18n="nav_insights" class="hover:text-cyan-500 transition-colors">Insights</a></li>
+                    <li><a href="academy.html" data-i18n="nav_academy" class="hover:text-cyan-500 transition-colors">Academy</a></li>
+                    <li><a href="pricing.html" data-i18n="nav_pricing" class="hover:text-cyan-500 transition-colors">Pricing</a></li>
+                    <li><a href="seminar.html" data-i18n="footer_seminar" class="hover:text-cyan-500 transition-colors">Seminars</a></li>
+                </ul>
+            </div>
+
+            <div class="md:pt-32 md:col-start-6">
+                <h4 data-i18n="footer_support_title" class="font-bold text-slate-800 mb-8 uppercase tracking-widest text-sm">Support</h4>
+                <ul class="space-y-6 text-sm text-slate-500 font-medium">
+                    <li><a href="privacy.html" data-i18n="footer_privacy" class="hover:text-cyan-500 transition-colors">Privacy Policy</a></li>
+                    <li><a href="risk-warning.html" data-i18n="footer_warning" class="hover:text-cyan-500 transition-colors">Risk Warning</a></li>
+                    <li><a href="platforms.html" data-i18n="footer_partners" class="hover:text-cyan-500 transition-colors">Partner Platforms</a></li>
+                    <li><a href="sponsors.html" data-i18n="footer_sponsors" class="hover:text-cyan-500 transition-colors">Sponsors</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto mt-24 pt-8 border-t border-slate-100 flex justify-center items-center text-center text-[11px] text-slate-400 uppercase tracking-widest font-semibold">
+            <span>© 2026 FX Spectrum Infotech Co., Ltd. All rights reserved.</span>
+        </div>
+    </footer>
+
+    <!-- 底部數據跑馬燈 -->
+    <div class="ticker-wrap fixed bottom-0 z-50 py-1.5 bg-slate-900 border-t-0">
+        <div id="bottom-ticker" class="ticker-reverse text-white"></div>
     </div>
 
     <script>
-        // --- 核心修正：使用最新的 Google Apps Script 執行網址 ---
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbzuB65CD8rzc_YrediUF6FQ3M1DqoPyAv4cBwH9uu_nWfcV-tDT61G94AYbY51qA1dO3A/exec';
+        const expertPredictions = [
+            { category: { en: 'Forex', 'zh-TW': '外匯市場', 'zh-CN': '外汇市场' }, product: 'EUR / USD', status: { en: 'Strong Bullish', 'zh-TW': '市場反應看漲', 'zh-CN': '市场情绪看涨' }, sub: { en: '(Bullish)', 'zh-TW': '(牛市)', 'zh-CN': '(牛市)' }, trend: 'up' },
+            { category: { en: 'Precious Metals', 'zh-TW': '貴金屬', 'zh-CN': '贵金属' }, product: 'XAU / USD (Gold)', status: { en: 'Neutral Bearish', 'zh-TW': '市場反應看跌', 'zh-CN': '市场情绪看跌' }, sub: { en: '(Bearish)', 'zh-TW': '(熊市)', 'zh-CN': '(熊市)' }, trend: 'down' },
+            { category: { en: 'Crypto Currency', 'zh-TW': '加密貨幣', 'zh-CN': '虚拟货币' }, product: 'BTC / USDT', status: { en: 'Strong Bullish', 'zh-TW': '市場反應看漲', 'zh-CN': '市场情绪看涨' }, sub: { en: '(Bullish)', 'zh-TW': '(牛市)', 'zh-CN': '(牛市)' }, trend: 'up' },
+            { category: { en: 'Indices', 'zh-TW': '股票指數', 'zh-CN': '股票指数' }, product: 'NASDAQ', status: { en: 'Market Consolidating', 'zh-TW': '市場盤整中', 'zh-CN': '市场盘整中' }, sub: { en: '(Sideways)', 'zh-TW': '(盤整)', 'zh-CN': '(盤整)' }, trend: 'side' },
+            { category: { en: 'Forex', 'zh-TW': '外匯市場', 'zh-CN': '外汇市场' }, product: 'USD / JPY', status: { en: 'Trend Reversal', 'zh-TW': '市場反應看跌', 'zh-CN': '市场情绪看跌' }, sub: { en: '(Bearish)', 'zh-TW': '(熊市)', 'zh-CN': '(熊市)' }, trend: 'down' }
+        ];
 
-        const icons = {
-            fb: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#1877F2"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
-            ig: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#E4405F"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>`,
-            line: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#06C755"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.59.121.303.079.778.039 1.085l-.171 1.027c-.052.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967 1.739-1.907 2.552-3.953 2.552-5.99zm-15.65 2.652H7.13a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.328 0h-1.22a.452.452 0 0 1-.452-.452V8.358c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm5.726 0h-1.22a.452.452 0 0 1-.452-.452v-2.28l-2.023 2.544c-.067.085-.164.136-.269.136h-.81a.451.451 0 0 1-.355-.733l2.42-3.047v-1.119c0-.25.202-.452.452-.452h1.22c.25 0 .452.202.452.452v3.696c0 .25-.202.452-.452.452zm3.064-1.353h-1.231v.901a.452.452 0 0 1-.452.452h-1.22a.452.452 0 0 1-.452-.452V8.358a.452.452 0 0 1 .452-.452h3.355c.25 0 .452.202.452.452v.9c0 .25-.202.452-.452.452h-1.451v.683h1.451c.25 0 .452.202.452.452v.9a.452.452 0 0 1-.452.452z"/></svg>`,
-            li: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#0A66C2"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>`,
-            tg: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#0088cc"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69a.2.2 0 00-.05-.18c-.06-.05-.14-.03-.21-.02-.09.02-1.49.95-4.22 2.79-.4.27-.76.41-1.08.4-.36-.01-1.04-.2-1.55-.37-.63-.2-1.13-.31-1.08-.66.02-.18.27-.36.74-.55 2.92-1.27 4.86-2.11 5.83-2.51 2.78-1.16 3.35-1.36 3.73-1.36.08 0 .27.02.39.12.1.08.13.19.14.27-.01.06.01.24 0 .38z"/></svg>`,
-            wc: `<svg class="w-4 h-4" viewBox="0 0 1024 1024"><path d="M660.1 534.6c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm-162 0c13.1 0 23.7-10.6 23.7-23.7s-10.6-23.7-23.7-23.7c-13.1 0-23.7 10.6-23.7 23.7s10.6 23.7 23.7 23.7zm283 55.4c0-111.4-100.3-201.7-224-201.7S333.1 478.6 333.1 590s100.3 201.7 224 201.7c25.9 0 50.6-3.9 73.4-11l57.2 30.1-15.1-53.1c48.8-34.9 78.4-84.3 78.4-137.7zM457.7 325.2c16.3 0 29.6-13.3 29.6-29.6S474 266 457.7 266s-29.6 13.3-29.6 29.6 13.3 29.6 29.6 29.6zm-203.7 0c16.3 0 29.6-13.3 29.6-29.6S270.3 266 254 266c-16.3 0-29.6 13.3-29.6 29.6s13.3 29.6 29.6 29.6zm414.8 55.5c0-139.2-125.4-252.1-280-252.1S92.5 241.5 92.5 380.7c0 78.3 40.2 147.9 103 194.2l-23.5 82.3 88.9-46.7c35.1 9.8 72.8 15.3 112.5 15.3 7.8 0 15.5-.2 23.1-.6-4.5-20.1-6.9-41.2-6.9-62.8 0-128 115.4-231.7 257.6-231.7 3.5 0 7 0 10.5.1z" fill="#07C160"/></svg>`,
-            wa: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#25D366"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.72.94 3.659 1.437 5.634 1.437h.005c6.558 0 11.897-5.335 11.9-11.894a11.83 11.83 0 00-3.486-8.413z"/></svg>`,
-            x: `<svg class="w-4 h-4" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932 6.064-6.932zm-1.292 19.49h2.039L6.486 3.24H4.298l13.311 17.403z"/></svg>`
-        };
+        let currentPredictionIdx = 0;
 
-        const translations = {
-            tc: {
-                title: "FX Spectrum 專業授權方案", subtitle: "選擇最適合您的交易規模與平台的方案",
-                monthly: "月繳", semi: "半年繳", yearly: "年繳 (最划算)",
-                limitedTitle: "限時推廣方案", limitedSub: "※ 僅限本月首 10 位推廣名額, 數量有限",
-                restrictedTitle: "綁定指定平台付費方案", restrictedSub: "適合單一券商交易者",
-                unrestrictedTitle: "不綁定指定平台方案", unrestrictedSub: "專業交易員首選",
-                fullyUnlocked: "完全解鎖", cannotAdd: "不可加選", selectOneOfTwo: "2選1", canAdd: "可加選", trialPeriod: "使用期限 30 天",
-                featureBroker: "綁定官方指定合作券商", featureBrokerRestricted: "官方指定券商帳號 (不可自選)",
-                featureUnrestricted: "不限券商、不限帳號數量", featureStrategy: "專屬一對一策略調優服務",
-                featureSupport: "支持線上技術諮詢", btnClaim: "立即前往領取", btnSubscribe: "立即訂閱",
-                btnContact: "聯絡官方獲取授權", cycleLabel: { monthly: "/ 月", "semi-annual": "/ 半年", yearly: "/ 年" },
-                h1: "極速下單", h1s: "毫秒級毫無延遲", h2: "資金安全", h2s: "嚴格執行止損保本",
-                h3: "利潤極大化", h3s: "全自動移動止盈", h4: "精算配置", h4s: "自動計算每單風險",
-                footer1: "* 付費方案均包含永久技術支援與版本更新。", footer2: "* 「指定平台」係指該授權僅限於與本司簽約之券商帳號。",
-                plan1Unavailable: "此方案僅限月繳試用",
-                modalTitle: "留下聯繫資訊", modalSub: "管理員將儘速與您聯繫", labelLastName: "姓氏 / Last Name", labelFirstName: "名字 / First Name",
-                labelEmail: "信箱 / Email", labelSocial: "社群媒體 ID / Social Media ID", labelPhone: "電話 / Phone",
-                labelMsg: "備註 / Message", btnSubmit: "確認送出", successTitle: "提交成功！", successMsg: "感謝您的留下資訊，我們將儘速與您聯繫。", btnClose: "關閉"
-            },
-            sc: {
-                title: "FX Spectrum 专业授权方案", subtitle: "选择最适合您的交易规模与平台的方案",
-                monthly: "月支付", semi: "半年支付", yearly: "年支付 (最划算)",
-                limitedTitle: "限时推广方案", limitedSub: "※ 仅限本月首 10 位推广名額, 数量有限",
-                restrictedTitle: "绑定指定平台付费方案", restrictedSub: "适合单一券商交易者",
-                unrestrictedTitle: "不绑定指定平台方案", unrestrictedSub: "专业交易员首选",
-                fullyUnlocked: "完全解锁", cannotAdd: "不可加选", selectOneOfTwo: "2选1", canAdd: "可加选", trialPeriod: "使用期限 30 天",
-                featureBroker: "绑定官方指定合作券商", featureBrokerRestricted: "官方指定券商账号 (不可自选)",
-                featureUnrestricted: "不限券商、不限账号数量", featureStrategy: "专属一对一策略调优服务",
-                featureSupport: "支持在线技术咨询", btnClaim: "立即前往领取", btnSubscribe: "立即订阅",
-                btnContact: "联络官方获取授权", cycleLabel: { monthly: "/ 月", "semi-annual": "/ 半年", yearly: "/ 年" },
-                h1: "极速下单", h1s: "毫秒级毫无延迟", h2: "资金安全", h2s: "严格执行止损保本",
-                h3: "利润极大化", h3s: "全自动移动止盈", h4: "極算配置", h4s: "自动计算每单风险",
-                footer1: "* 付费方案均包含永久技术支援与版本更新。", footer2: "* 「指定平台」系指该授权仅限于与本司签约之券商账号。",
-                plan1Unavailable: "此方案仅限月缴试用",
-                modalTitle: "留下联系信息", modalSub: "管理员將尽速与您联系", labelLastName: "姓 / Last Name", labelFirstName: "名 / First Name",
-                labelEmail: "邮箱 / Email", labelSocial: "社群媒体 ID / Social Media ID", labelPhone: "电话 / Phone",
-                labelMsg: "备注 / Message", btnSubmit: "确认提交", successTitle: "提交成功！", successMsg: "感谢您留下信息，我們將尽速与您联系。", btnClose: "关闭"
-            },
-            en: {
-                title: "FX Spectrum Professional Licensing", subtitle: "Choose the plan that best fits your trading scale and platform",
-                monthly: "Monthly", semi: "Semi-Annual", yearly: "Yearly (Best Value)",
-                limitedTitle: "Limited Promotion", limitedSub: "※ Limited to first 10 slots this month only",
-                restrictedTitle: "Platform-Restricted Plan", restrictedSub: "Ideal for single broker traders",
-                unrestrictedTitle: "Unrestricted Platform Plan", unrestrictedSub: "First choice for professional traders",
-                fullyUnlocked: "Fully Unlocked", cannotAdd: "Not Available", selectOneOfTwo: "Select 1 of 2", canAdd: "Add-on Available", trialPeriod: "30-day trial period",
-                featureBroker: "Bound to official partner brokers", featureBrokerRestricted: "Official broker account (Non-selectable)",
-                featureUnrestricted: "No broker limits, unlimited accounts", featureStrategy: "Exclusive 1-on-1 Strategy Optimization",
-                featureSupport: "Online Technical Support", btnClaim: "Claim Now", btnSubscribe: "Subscribe Now",
-                btnContact: "Contact for Authorization", cycleLabel: { monthly: "/ mo", "semi-annual": "/ 6-mo", yearly: "/ yr" },
-                h1: "Rapid Execution", h1s: "Millisecond latency-free", h2: "Capital Security", h2s: "Strict Breakeven execution",
-                h3: "Profit Max", h3s: "Auto Trailing Stop", h4: "Risk Calculation", h4s: "Auto-calculate lot size",
-                footer1: "* Paid plans include lifetime technical support and updates.", footer2: "* 'Restricted Platform' refers to licensing limited to contracted brokers.",
-                plan1Unavailable: "Trial only available for Monthly",
-                modalTitle: "Contact Information", modalSub: "Manager will contact you shortly", labelLastName: "Last Name", labelFirstName: "First Name",
-                labelEmail: "Email", labelSocial: "Social Media ID", labelPhone: "Phone",
-                labelMsg: "Message", btnSubmit: "Submit", successTitle: "Success!", successMsg: "Thank you for your interest. We will reach out to you soon.", btnClose: "Close"
-            }
-        };
+        function rotateExpertPredictions() {
+            const valEl = document.getElementById('sentiment-value');
+            const prodEl = document.getElementById('sentiment-product');
+            const catEl = document.getElementById('sentiment-category');
+            const dotEl = document.getElementById('sentiment-dot');
+            const statusText = document.getElementById('sentiment-status-text');
+            const lang = document.documentElement.lang || 'en';
 
-        const prices = { restricted: { monthly: 200, semi: 600, yearly: 1000 }, unrestricted: { monthly: 500, semi: 2700, yearly: 5000 } };
-        let currentLang = 'en';
-        let currentCycle = 'yearly';
-        let currentSocialType = 'Telegram';
-
-        function setLang(l) {
-            currentLang = l;
-            ['tc', 'sc', 'en'].forEach(id => {
-                const btn = document.getElementById('lang-' + id);
-                if(id === l) { btn.classList.add('bg-slate-700', 'text-white'); btn.classList.remove('text-slate-500'); }
-                else { btn.classList.remove('bg-slate-700', 'text-white'); btn.classList.add('text-slate-500'); }
-            });
-            render();
+            if (!valEl) return;
+            valEl.classList.remove('fade-in-out');
+            valEl.style.opacity = '0.3';
+            statusText.innerText = lang === 'en' ? 'Scanning...' : 'AI 掃描分析中...';
+            
+            setTimeout(() => {
+                const data = expertPredictions[currentPredictionIdx];
+                catEl.innerText = data.category[lang];
+                prodEl.innerText = data.product;
+                valEl.innerHTML = `<div class="leading-tight">${data.status[lang]}</div><div class="text-base font-medium opacity-60 mt-1">${data.sub[lang]}</div>`;
+                valEl.style.opacity = '1';
+                valEl.classList.add('fade-in-out');
+                
+                let dotColor = 'bg-green-500';
+                if (data.trend === 'down') dotColor = 'bg-red-500';
+                if (data.trend === 'side') dotColor = 'bg-yellow-500';
+                
+                dotEl.className = `w-2 h-2 rounded-full animate-pulse ${dotColor}`;
+                statusText.innerText = lang === 'en' ? 'Live Insight' : '專家預測同步中';
+                currentPredictionIdx = (currentPredictionIdx + 1) % expertPredictions.length;
+            }, 600);
         }
 
-        function setCycle(c) {
-            currentCycle = c;
-            ['monthly', 'semi', 'yearly'].forEach(id => {
-                const btn = document.getElementById('btn-' + id);
-                const isMatch = (c === 'semi-annual' ? 'semi' : c) === id;
-                if(isMatch) { btn.classList.add('bg-slate-700', 'text-white', 'shadow-lg'); btn.classList.remove('text-slate-500'); }
-                else { btn.classList.remove('bg-slate-700', 'text-white', 'shadow-lg'); btn.classList.add('text-slate-500'); }
-            });
-            render();
-        }
+        const clients = ["User A***n", "Client T***y", "Trader M***l", "Investor K***n", "User J***e", "Trader R***o"];
+        const eas = ["Trading Assistant", "Exit Plus", "Risk Reward"];
 
-        function toggleSocialList() { document.getElementById('social-list').classList.toggle('show'); }
-        function selectSocial(type) {
-            currentSocialType = type;
-            const iconMap = { Facebook: 'fb', Instagram: 'ig', LINE: 'line', LinkedIn: 'li', Telegram: 'tg', WeChat: 'wc', WhatsApp: 'wa', X: 'x' };
-            document.getElementById('selected-icon').innerHTML = icons[iconMap[type]];
-            document.getElementById('selected-label').innerText = type;
-            document.getElementById('social-list').classList.remove('show');
-        }
+        function rotateClientProfits() {
+            const profitEl = document.getElementById('live-client-profit');
+            const lang = document.documentElement.lang || 'en';
+            if (!profitEl) return;
 
-        function openModal(plan) {
-            document.getElementById('input-plan').value = plan;
-            const modal = document.getElementById('contact-modal');
-            modal.classList.remove('modal-hidden');
-            document.getElementById('modal-form-view').classList.remove('hidden');
-            document.getElementById('modal-success-view').classList.add('hidden');
-            document.getElementById('lead-form').reset();
-            selectSocial('Telegram'); 
-            lucide.createIcons();
-        }
-
-        function closeModal() { document.getElementById('contact-modal').classList.add('modal-hidden'); }
-
-        // --- 核心送出邏輯 ---
-        document.getElementById('lead-form').onsubmit = function(e) {
-            e.preventDefault();
-            const btnSubmit = document.getElementById('btn-submit');
-            const originalText = btnSubmit.innerText;
-            btnSubmit.disabled = true;
-            btnSubmit.innerText = 'Sending...';
-
-            const data = {
-                plan: document.getElementById('input-plan').value,
-                cycle: currentCycle,
-                lastName: document.getElementById('input-lastname').value,
-                firstName: document.getElementById('input-firstname').value,
-                email: document.getElementById('input-email').value,
-                socialType: currentSocialType,
-                socialId: document.getElementById('input-social-id').value,
-                phone: document.getElementById('input-phone').value,
-                message: document.getElementById('input-msg').value
-            };
-
-            // 使用最新的網址進行 Fetch
-            fetch(scriptURL, { 
-                method: 'POST', 
-                mode: 'no-cors', 
-                headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-                body: JSON.stringify(data) 
-            }).then(() => {
-                document.getElementById('modal-form-view').classList.add('hidden');
-                document.getElementById('modal-success-view').classList.remove('hidden');
-                lucide.createIcons();
-            }).catch(err => {
-                console.error("Submission error:", err);
-                alert("Submission failed. Please try again.");
-            }).finally(() => {
-                btnSubmit.disabled = false;
-                btnSubmit.innerText = originalText;
-            });
-        };
-
-        function render() {
-            try {
-                const t = translations[currentLang];
-                const cycleKey = currentCycle === 'semi-annual' ? 'semi' : currentCycle;
-                const cycleText = t.cycleLabel[currentCycle];
-
-                document.getElementById('main-title').innerText = t.title;
-                document.getElementById('main-subtitle').innerText = t.subtitle;
-                document.getElementById('btn-monthly').innerText = t.monthly;
-                document.getElementById('btn-semi').innerText = t.semi;
-                document.getElementById('btn-yearly').innerText = t.yearly;
-
-                const p1c = document.getElementById('plan1-content');
-                const p1u = document.getElementById('plan1-unavailable');
-                const p1cont = document.getElementById('plan1-container');
-                if (currentCycle === 'monthly') {
-                    p1c.classList.remove('hidden'); p1c.classList.add('flex'); p1u.classList.add('hidden'); p1cont.classList.remove('plan-disabled');
-                    document.getElementById('plan1-title').innerText = t.limitedTitle;
-                    document.getElementById('plan1-sub').innerText = t.limitedSub;
-                    document.getElementById('plan1-cycle').innerText = cycleText;
-                    document.getElementById('btn1').innerText = t.btnClaim;
-                    document.getElementById('list-limited').innerHTML = `
-                        <li class="flex items-center text-sm text-slate-300"><i data-lucide="lock" class="text-yellow-500 mr-3 w-4 h-4"></i>${t.featureBroker}</li>
-                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="check" class="text-green-500 mr-3 mt-1 w-4 h-4"></i>T Assistant</li>
-                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Exit Plus (${t.cannotAdd})</li>
-                        <li class="flex items-start text-sm text-slate-400"><i data-lucide="x" class="text-red-500 mr-3 mt-1 w-4 h-4"></i>Risk Reward (${t.cannotAdd})</li>
-                        <li class="flex items-start text-sm text-slate-300 font-bold italic underline decoration-yellow-500/50"><i data-lucide="calendar-days" class="text-yellow-500 mr-3 mt-1 w-4 h-4"></i>${t.trialPeriod}</li>
-                    `;
+            profitEl.classList.remove('fade-in-out');
+            
+            setTimeout(() => {
+                const randomClient = clients[Math.floor(Math.random() * clients.length)];
+                const randomEA = eas[Math.floor(Math.random() * eas.length)];
+                const randomPoints = (Math.random() * 89.9 + 10).toFixed(1);
+                
+                let text = "";
+                if (lang === 'zh-TW') {
+                    text = `<div class="text-slate-500 font-medium mb-1">${randomClient} (${randomEA})</div><div class="text-lg text-emerald-600 font-bold tracking-tight">獲利 ${randomPoints} 點</div>`;
+                } else if (lang === 'zh-CN') {
+                    text = `<div class="text-slate-500 font-medium mb-1">${randomClient} (${randomEA})</div><div class="text-lg text-emerald-600 font-bold tracking-tight">获利 ${randomPoints} 点</div>`;
                 } else {
-                    p1c.classList.add('hidden'); p1c.classList.remove('flex'); p1u.classList.remove('hidden'); p1cont.classList.add('plan-disabled');
-                    document.getElementById('plan1-unavailable-msg').innerText = t.plan1Unavailable;
+                    text = `<div class="text-slate-500 font-medium mb-1">${randomClient}</div><div class="text-lg text-emerald-600 font-bold tracking-tight">${randomPoints} pts <span class="text-[10px] text-slate-400">w/ ${randomEA}</span></div>`;
                 }
 
-                document.getElementById('plan2-title').innerText = t.restrictedTitle;
-                document.getElementById('plan2-sub').innerText = t.restrictedSub;
-                document.getElementById('price-restricted').innerText = '$' + prices.restricted[cycleKey].toLocaleString();
-                document.getElementById('label-restricted').innerText = cycleText;
-                document.getElementById('btn2').innerText = t.btnSubscribe;
-                document.getElementById('plan3-title').innerText = t.unrestrictedTitle;
-                document.getElementById('plan3-sub').innerText = t.unrestrictedSub;
-                document.getElementById('price-unrestricted').innerText = '$' + prices.unrestricted[cycleKey].toLocaleString();
-                document.getElementById('label-unrestricted').innerText = cycleText;
-                document.getElementById('btn3').innerText = t.btnContact;
-
-                let pal = ` (${t.cannotAdd})`; let pai = 'x'; let pac = 'text-red-500';
-                if (currentCycle === 'semi-annual') { pal = ` (${t.selectOneOfTwo})`; pai = 'check'; pac = 'text-green-400'; }
-                else if (currentCycle === 'yearly') { pal = ` (${t.canAdd})`; pai = 'check'; pac = 'text-green-400'; }
-                const tas = currentCycle === 'yearly' ? ` (${t.fullyUnlocked})` : '';
-
-                const listPaid = (r) => `
-                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="${r?'lock':'globe'}" class="text-${r?'blue':'purple'}-400 mr-3 w-4 h-4"></i>${r?t.featureBrokerRestricted:t.featureUnrestricted}</li>
-                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 mt-1 w-4 h-4"></i>T Assistant${tas}</li>
-                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Exit Plus${pal}</li>
-                    <li class="flex items-start text-sm text-slate-200"><i data-lucide="${pai}" class="${pac} mr-3 mt-1 w-4 h-4"></i>Risk Reward${pal}</li>
-                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureStrategy}</li>
-                    <li class="flex items-center text-sm text-slate-200"><i data-lucide="check" class="text-green-400 mr-3 w-4 h-4"></i>${t.featureSupport}</li>
-                `;
-                document.getElementById('list-restricted').innerHTML = listPaid(true);
-                document.getElementById('list-unrestricted').innerHTML = listPaid(false);
-
-                document.getElementById('highlights').innerHTML = [
-                    { i: 'zap', c: 'yellow', t: currentLang === 'en' ? 'Speed' : '極速下單', s: currentLang === 'en' ? 'Zero Latency' : '毫秒級無延遲' },
-                    { i: 'shield', c: 'blue', t: currentLang === 'en' ? 'Secure' : '資金安全', s: currentLang === 'en' ? 'Stop Loss' : '嚴格執行保本' },
-                    { i: 'trending-up', c: 'green', t: currentLang === 'en' ? 'Profit' : '利潤最大', s: currentLang === 'en' ? 'Auto Trail' : '全自動移動止盈' },
-                    { i: 'dollar-sign', c: 'orange', t: currentLang === 'en' ? 'Precise' : '精算配置', s: currentLang === 'en' ? 'Risk Calc' : '自動計算風險' }
-                ].map(h => `<div class="bg-slate-900/50 border border-slate-800 p-4 rounded-2xl text-center h-full flex flex-col justify-center transition-all hover:bg-slate-900">
-                    <div class="flex justify-center mb-2"><i data-lucide="${h.i}" class="text-${h.c}-500"></i></div>
-                    <div class="text-sm font-bold">${h.t}</div>
-                    <div class="text-[10px] text-slate-500">${h.s}</div>
-                </div>`).join('');
-                document.getElementById('footer1').innerText = t.footer1;
-                document.getElementById('footer2').innerText = t.footer2;
-
-                document.getElementById('modal-title').innerText = t.modalTitle;
-                document.getElementById('modal-subtitle').innerText = t.modalSub;
-                document.getElementById('label-lastname').innerText = t.labelLastName;
-                document.getElementById('label-firstname').innerText = t.labelFirstName;
-                document.getElementById('label-email').innerText = t.labelEmail;
-                document.getElementById('label-social').innerText = t.labelSocial;
-                document.getElementById('label-phone').innerText = t.labelPhone;
-                document.getElementById('label-message').innerText = t.labelMsg;
-                document.getElementById('btn-submit').innerText = t.btnSubmit;
-                document.getElementById('success-title').innerText = t.successTitle;
-                document.getElementById('success-msg').innerText = t.successMsg;
-                document.getElementById('btn-close').innerText = t.btnClose;
-
-                if (typeof lucide !== 'undefined') lucide.createIcons();
-            } catch (e) { console.error("Render error:", e); }
+                profitEl.innerHTML = text;
+                profitEl.classList.add('fade-in-out');
+            }, 300);
         }
 
-        document.addEventListener('DOMContentLoaded', render);
-        window.onload = render;
-        window.onclick = function(e) { if (!e.target.closest('#social-selector-btn') && !e.target.closest('#social-list')) document.getElementById('social-list').classList.remove('show'); }
+        let currentSlide = 0;
+        let sliderTimer = null;
+
+        function getSlideElements() {
+            return document.querySelectorAll('#slider-wrapper .slide');
+        }
+
+        function renderManagedSlidesIfNeeded() {
+            const wrapper = document.getElementById('slider-wrapper');
+            const config = typeof window.getManagedSlidesConfig === 'function' ? window.getManagedSlidesConfig() : null;
+            if (!wrapper || !config?.slides?.length) return 5;
+            wrapper.innerHTML = config.slides.map((item, idx) => {
+                const safeAlt = (item.title || `Slide ${idx + 1}`).replace(/"/g, '&quot;');
+                const legacyId = idx < 3 ? ` id="managed-slide-${idx + 1}"` : '';
+                return `<img${legacyId} src="${item.imageUrl}" class="slide" alt="${safeAlt}">`;
+            }).join('');
+            return Math.max(1, Number(config.intervalSeconds) || 5);
+        }
+
+        function initSlider() {
+            const dotsContainer = document.getElementById('slider-dots');
+            if (!dotsContainer) return;
+            const intervalSeconds = renderManagedSlidesIfNeeded();
+            const slides = getSlideElements();
+            if (!slides.length) return;
+            dotsContainer.innerHTML = '';
+            currentSlide = 0;
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = `dot ${i === 0 ? 'active' : ''}`;
+                dot.onclick = () => { currentSlide = i; updateSlider(); };
+                dotsContainer.appendChild(dot);
+            });
+            if (sliderTimer) clearInterval(sliderTimer);
+            if (slides.length > 1) {
+                sliderTimer = setInterval(() => {
+                    const nowSlides = getSlideElements();
+                    if (!nowSlides.length) return;
+                    currentSlide = (currentSlide + 1) % nowSlides.length;
+                    updateSlider();
+                }, intervalSeconds * 1000);
+            }
+        }
+
+        function moveSlide(step) {
+            const slides = getSlideElements();
+            if (!slides.length) return;
+            currentSlide = (currentSlide + step + slides.length) % slides.length;
+            updateSlider();
+        }
+        function updateSlider() {
+            const wrapper = document.getElementById('slider-wrapper');
+            const slides = getSlideElements();
+            if (!slides.length) return;
+            if (currentSlide >= slides.length) currentSlide = 0;
+            if(wrapper) wrapper.style.transform = `translateX(-${currentSlide * 100}%)`;
+            document.querySelectorAll('.dot').forEach((dot, i) => dot.classList.toggle('active', i === currentSlide));
+        }
+
+        const translations = {
+            'en': { 'nav_insights': 'Insights', 'nav_academy': 'Academy', 'nav_affiliate': 'Partners', 'nav_pricing': 'Pricing', 'nav_about': 'About Us', 'nav_login': 'Log In', 'mobile_home': 'Home', 'hero_badge': '2026 Intelligent Trading Dimension', 'hero_title_1': 'Redefining Trading', 'hero_title_2': 'Advanced EA', 'hero_desc': 'Your comprehensive professional portal: Combining AI-driven market insights, top-tier EA automation tools, and in-depth education.', 'card_copy_title': 'Live Copy Trading', 'card_copy_roi': 'Est. Yearly ROI', 'btn_academy': 'Join Our Official Chatroom', 'academy_card_desc': 'Master the Market', 'card_perf_title': 'Live Performance', 'status_syncing': 'Scanning Market...', 'brand_sec_title': 'In an Era Flooded with EAs, Why Do Professional Traders Choose Us?', 'brand_sec_desc': 'We combine the computational power of AI neural networks with veteran trader intuition on structure and risk rhythm to build an intelligent engine that evolves over time.', 'brand_feat1_title': 'No More Black-Box Trading', 'brand_feat1_desc': 'Every strategy parameter is traceable and academically validated, from entries and exits to position control, so decisions remain interpretable.', 'brand_feat2_title': 'Adaptive to Global Bull/Bear Regimes', 'brand_feat2_desc': 'Cross-market data synchronization and volatility-regime detection allow dynamic adaptation, reducing style-drift and single-market dependency.', 'brand_feat3_title': 'Institutional-Grade Risk Standards', 'brand_feat3_desc': 'Drawdown, volatility, and Sharpe ratio are monitored as core metrics, with layered stop-loss and capital-allocation controls to quantify both return and survivability.', 'brand_quote': '"Trading is not about short-term profit, but about effective long-term output." — FX Spectrum Infotech', 'brand_cta': 'Read Our Technical Whitepaper', 'footer_desc': 'Professional forex tools and educational platform dedicated to empowering traders with advanced AI analytics and reliable Expert Advisors.', 'footer_links_title': 'Quick Links', 'footer_support_title': 'Support', 'footer_follow_us': 'Follow Us', 'footer_privacy': 'Privacy Policy', 'footer_warning': 'Risk Warning', 'footer_partners': 'Platforms', 'footer_sponsors': 'Sponsors', 'footer_seminar': 'Seminars' },
+            'zh-TW': { 'nav_insights': '市場分析', 'nav_academy': '教育學院', 'nav_affiliate': '合作計畫', 'nav_pricing': '方案價格', 'nav_about': '關於我們', 'nav_login': '登入系統', 'mobile_home': '首頁', 'hero_badge': '智能領航・智聯交易新境界', 'hero_title_1': '智慧重塑交易', 'hero_title_2': '自動致富未來', 'hero_desc': '匯集全球即時洞察、頂尖 EA 自動化系統與專業教育，為現代交易員打造的全方位智富引擎。', 'card_copy_title': '即時跟單績效', 'card_copy_roi': '預估年化報酬率', 'btn_academy': '加入我們的官方聊天室', 'academy_card_desc': '掌握市場獲利邏輯', 'card_perf_title': '即時獲利表現', 'status_syncing': '市場掃描中...', 'brand_sec_title': '為何IB和trader都選擇FX Spectrum?', 'brand_sec_desc': '我們匯集全球數千名交易者的實戰回饋，將資深盤感轉化為精密的自動化邏輯，打造出深度優化的全自動加平倉系統，徹底排除無謂操作，直擊市場獲利核心。', 'brand_feat1_title': '拒絕「黑盒子」交易', 'brand_feat1_desc': '每一項策略參數皆可追溯並經過學術驗證，從進出場邏輯到部位管理都提供可解釋框架，避免盲目追隨訊號。', 'brand_feat2_title': '全球多空環境自適應', 'brand_feat2_desc': '結合跨市場數據同步與波動 regime 判讀，策略可依多空切換即時調整，降低單一市場風格失效的風險。', 'brand_feat3_title': '機構級風控標準', 'brand_feat3_desc': '以回撤、波動、夏普比率為核心監控指標，建立分層止損與資金配置機制，讓績效與生存能力同時被量化。', 'brand_quote': '「交易不只是關注短期獲利，更是能有效長期輸出。」 — FX Spectrum Infotech', 'brand_cta': '閱讀我們的技術白皮書', 'footer_desc': '專業外匯工具與教育平台，致力於透過先進的 AI 分析與可靠的自動化交易系統。', 'footer_links_title': '快速連結', 'footer_support_title': '支援與條款', 'footer_follow_us': '關注我們', 'footer_privacy': '隱私條款', 'footer_warning': '風險警示', 'footer_partners': '合作平台', 'footer_sponsors': '贊助商', 'footer_seminar': '研討會' },
+            'zh-CN': { 'nav_insights': '市场分析', 'nav_academy': '教育学院', 'nav_affiliate': '合作计划', 'nav_pricing': '方案价格', 'nav_about': '关于我们', 'nav_login': '登入系统', 'mobile_home': '首页', 'hero_badge': '智能领航・智联交易新境界', 'hero_title_1': '智慧重塑交易', 'hero_title_2': '自动致富未来', 'hero_desc': '汇集全球即时洞察、顶尖 EA 自动化系统与专业教育，为现代交易员打造的全方位智富引擎。', 'card_copy_title': '即时跟单绩效', 'card_copy_roi': '预估年化报酬率', 'btn_academy': '加入我们的官方聊天室', 'academy_card_desc': '掌握市场获利逻辑', 'card_perf_title': '即时获利表现', 'status_syncing': '市场扫描中...', 'brand_sec_title': '为何IB和trader都选择FX Spectrum?', 'brand_sec_desc': '我们汇集全球数千名交易者的实战反馈，将资深盘感转化为精密的自动化逻辑，打造出深度优化的全自动加平仓系统，彻底排除无谓操作，直击市场获利核心。', 'brand_feat1_title': '拒绝“黑盒子”交易', 'brand_feat1_desc': '每一项策略参数都可追溯并经过学术验证，从进出场逻辑到仓位管理都提供可解释框架，避免盲目追随信号。', 'brand_feat2_title': '全球多空环境自适应', 'brand_feat2_desc': '结合跨市场数据同步与波动 regime 判读，策略可根据多空切换实时调整，降低单一市场风格失效风险。', 'brand_feat3_title': '机构级风控标准', 'brand_feat3_desc': '以回撤、波动、夏普比率为核心监控指标，建立分层止损与资金配置机制，让绩效与生存能力同时被量化。', 'brand_quote': '“交易不只是关注短期获利，更是能有效长期输出。” — FX Spectrum Infotech', 'brand_cta': '阅读我们的技术白皮书', 'footer_desc': '专业外汇工具与教育平台，致力于通过先进的 AI 分析与可靠的自动化交易系统。', 'footer_links_title': '快速链接', 'footer_support_title': '支持与条款', 'footer_follow_us': '关注我们', 'footer_privacy': '隐私条款', 'footer_warning': '风险警示', 'footer_partners': '合作平台', 'footer_sponsors': '赞助商', 'footer_seminar': '研讨会' }
+        };
+
+        Object.assign(translations.en, { nav_signup: 'Sign Up' });
+        Object.assign(translations['zh-TW'], { nav_signup: '註冊會員' });
+        Object.assign(translations['zh-CN'], { nav_signup: '注册会员' });
+        Object.assign(translations.en, { nav_staff_area: 'Staff Area' });
+        Object.assign(translations['zh-TW'], { nav_staff_area: '員工專區' });
+        Object.assign(translations['zh-CN'], { nav_staff_area: '员工专区' });
+
+        function changeLanguage(lang) {
+            localStorage.setItem('fx_spectrum_lang', lang);
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`lang-${lang}`)?.classList.add('active');
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (translations[lang]?.[key]) el.innerText = translations[lang][key];
+            });
+            document.querySelectorAll('a[href="seminar.html"]').forEach(el => {
+                el.innerText = lang === 'zh-CN' ? '研讨会' : (lang === 'zh-TW' ? '研討會' : 'Seminars');
+            });
+            document.documentElement.lang = lang;
+            rotateExpertPredictions();
+            rotateClientProfits();
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.toggle('active');
+            document.getElementById('mobile-menu-overlay').classList.toggle('active');
+            document.body.style.overflow = document.getElementById('mobile-menu').classList.contains('active') ? 'hidden' : '';
+        }
+
+        function initBrandReveal() {
+            const items = document.querySelectorAll('.brand-reveal');
+            if (!items.length) return;
+            if (!('IntersectionObserver' in window)) {
+                items.forEach(el => el.classList.add('show'));
+                return;
+            }
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('show');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.2 });
+            items.forEach(el => io.observe(el));
+        }
+
+        const DIRECTIONS = ['LONG','SHORT'];
+        const PERFORMANCE_POOL = [
+            { product: 'XAU/USD', minPips: 60, maxPips: 150, weight: 18 },
+            { product: 'EUR/USD', minPips: 15, maxPips: 45, weight: 10 },
+            { product: 'BTC/USDT', minPips: 250, maxPips: 600, weight: 16 },
+            { product: 'GBP/USD', minPips: 20, maxPips: 55, weight: 12 },
+            { product: 'ETH/USDT', minPips: 180, maxPips: 420, weight: 14 },
+            { product: 'NASDAQ', minPips: 80, maxPips: 200, weight: 14 },
+            { product: 'USD/JPY', minPips: 12, maxPips: 40, weight: 10 }
+        ];
+        const totalWeight = PERFORMANCE_POOL.reduce((s, p) => s + p.weight, 0);
+        let liveOrders = [];
+        let baseROI = 87.7;
+        let simulatedMinutes = 0;
+        let simulatedHour = 0;
+        let tickCount = 0;
+
+        function pickProduct() {
+            let r = Math.random() * totalWeight;
+            for (const p of PERFORMANCE_POOL) {
+                r -= p.weight;
+                if (r <= 0) return p;
+            }
+            return PERFORMANCE_POOL[0];
+        }
+
+        function genOrder() {
+            const spec = pickProduct();
+            const pips = (spec.minPips + Math.random() * (spec.maxPips - spec.minPips)).toFixed(1);
+            const dir = DIRECTIONS[Math.floor(Math.random() * 2)];
+            return { product: spec.product, dir, pips };
+        }
+
+        function hourlyDrift() {
+            const delta = (Math.random() * 0.04 + 0.01) * (Math.random() > 0.5 ? 1 : -1);
+            baseROI = Math.max(80, Math.min(99, baseROI + delta));
+        }
+
+        function dailySettlement() {
+            baseROI += 0.2 + Math.random() * 0.6;
+            baseROI = Math.min(99, baseROI);
+        }
+
+        function updateROIDisplay() {
+            const el = document.getElementById('live-roi-value');
+            const wrap = document.getElementById('live-roi-wrap');
+            if (!el) return;
+            const s = baseROI.toFixed(2);
+            el.textContent = '+' + s + '%';
+            wrap?.classList.remove('roi-flash');
+            void wrap?.offsetWidth;
+            wrap?.classList.add('roi-flash');
+        }
+
+        function countUpROI(delta) {
+            baseROI += delta;
+            baseROI = Math.min(99, Math.max(80, baseROI));
+            updateROIDisplay();
+        }
+
+        function renderOrders() {
+            const container = document.getElementById('live-order-list');
+            if (!container) return;
+            container.innerHTML = liveOrders.map((o, i) => {
+                const color = o.dir === 'LONG' ? 'text-cyan-400' : 'text-purple-400';
+                const dirColor = o.dir === 'LONG' ? 'text-emerald-400' : 'text-rose-400';
+                return `<div class="order-row font-mono" style="animation-delay:${i * 0.1}s">
+                    <span class="text-[11px] font-bold text-white/90">${o.product}</span>
+                    <span class="text-[10px] font-bold ${dirColor}">${o.dir}</span>
+                    <span class="text-[11px] font-black ${color}">+${o.pips} P</span>
+                </div>`;
+            }).join('');
+        }
+
+        function refreshLiveOrders() {
+            const container = document.getElementById('live-order-list');
+            if (!container) return;
+            const rows = container.querySelectorAll('.order-row');
+            if (rows.length > 0) rows[0].classList.add('fade-out');
+            setTimeout(() => {
+                if (liveOrders.length >= 3) liveOrders.shift();
+                const newOrder = genOrder();
+                liveOrders.push(newOrder);
+                renderOrders();
+                const micro = 0.01 + Math.random() * 0.04;
+                countUpROI(micro);
+            }, rows.length > 0 ? 400 : 0);
+
+            tickCount++;
+            simulatedMinutes += 5;
+            if (simulatedMinutes >= 60) {
+                simulatedMinutes = 0;
+                simulatedHour++;
+                hourlyDrift();
+                updateROIDisplay();
+            }
+            if (simulatedHour >= 24) {
+                simulatedHour = 0;
+                dailySettlement();
+                updateROIDisplay();
+            }
+        }
+
+        function initLiveOrders() {
+            baseROI = 87.7 + (Math.random() * 0.5 - 0.25);
+            simulatedMinutes = Math.floor(Math.random() * 60);
+            simulatedHour = Math.floor(Math.random() * 24);
+            liveOrders = [genOrder(), genOrder(), genOrder()];
+            renderOrders();
+            updateROIDisplay();
+        }
+
+        window.onload = () => {
+            initSlider();
+            rotateExpertPredictions();
+            rotateClientProfits();
+            initLiveOrders();
+            setInterval(rotateExpertPredictions, 4000);
+            setInterval(rotateClientProfits, 3500);
+            setInterval(refreshLiveOrders, 5000);
+            initBrandReveal();
+            changeLanguage(localStorage.getItem('fx_spectrum_lang') || 'en');
+        };
     </script>
+    <script src="script.js"></script>
+    <script src="user_auth.js"></script>
 </body>
 </html>
